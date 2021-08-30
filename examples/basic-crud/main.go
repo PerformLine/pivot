@@ -7,9 +7,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/PerformLine/pivot/v3"
-	"github.com/PerformLine/pivot/v3/dal"
-	"github.com/PerformLine/pivot/v3/mapper"
+	"github.com/ghetzel/pivot/v3"
+	"github.com/ghetzel/pivot/v3/dal"
+	"github.com/ghetzel/pivot/v3/mapper"
 )
 
 type User struct {

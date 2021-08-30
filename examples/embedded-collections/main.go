@@ -5,9 +5,9 @@ import (
 	"time"
 
 	"github.com/ghetzel/go-stockutil/log"
-	"github.com/PerformLine/pivot/v3"
-	"github.com/PerformLine/pivot/v3/backends"
-	"github.com/PerformLine/pivot/v3/dal"
+	"github.com/ghetzel/pivot/v3"
+	"github.com/ghetzel/pivot/v3/backends"
+	"github.com/ghetzel/pivot/v3/dal"
 )
 
 type Contact struct {

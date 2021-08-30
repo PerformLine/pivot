@@ -1,8 +1,8 @@
 package backends
 
 import (
-	"github.com/PerformLine/pivot/v3/dal"
-	"github.com/PerformLine/pivot/v3/filter"
+	"github.com/ghetzel/pivot/v3/dal"
+	"github.com/ghetzel/pivot/v3/filter"
 )
 
 type ResultFunc func(ptrToInstance interface{}, err error) // {}

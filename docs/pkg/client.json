@@ -1,9 +1,9 @@
 {
     "Name": "client",
-    "CanonicalImportPath": "github.com/PerformLine/pivot/client",
+    "CanonicalImportPath": "github.com/ghetzel/pivot/client",
     "ImportPath": "client",
     "ParentPackage": "pivot",
-    "URL": "https://github.com/PerformLine/pivot",
+    "URL": "https://github.com/ghetzel/pivot",
     "Synopsis": "",
     "MainFunction": false,
     "CommentWordCount": 0,
@@ -51,11 +51,11 @@
                     "Alias": "typeutil"
                 },
                 {
-                    "PackageName": "github.com/PerformLine/pivot/v3/dal",
+                    "PackageName": "github.com/ghetzel/pivot/v3/dal",
                     "Alias": "dal"
                 },
                 {
-                    "PackageName": "github.com/PerformLine/pivot/v3/util",
+                    "PackageName": "github.com/ghetzel/pivot/v3/util",
                     "Alias": "util"
                 }
             ],

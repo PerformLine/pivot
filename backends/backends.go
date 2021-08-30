@@ -6,8 +6,8 @@ import (
 
 	"github.com/alexcesaro/statsd"
 	"github.com/ghetzel/go-stockutil/log"
-	"github.com/PerformLine/pivot/v3/dal"
-	"github.com/PerformLine/pivot/v3/filter"
+	"github.com/ghetzel/pivot/v3/dal"
+	"github.com/ghetzel/pivot/v3/filter"
 )
 
 var querylog = log.Logger()
