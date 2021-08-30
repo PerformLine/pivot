@@ -184,6 +184,25 @@ func esCriterionOperatorRange(gen *Elasticsearch, criterion filter.Criterion, op
 	return c, nil
 }
 
+func esCriterionOperatorPivotRange(gen *Elasticsearch, criterion filter.Criterion) (map[string]interface{}, error) {
+	var c = make(map[string]interface{})
+
+	if l := len(criterion.Values); l == 2 {
+		gen.values = append(gen.values, criterion.Values...)
+
+		c[`range`] = map[string]interface{}{
+			criterion.Field: map[string]interface{}{
+				"gte": criterion.Values[0],
+				"lt":  criterion.Values[1],
+			},
+		}
+	} else {
+		return c, fmt.Errorf("Ranging criteria can only accept two values, %d given", l)
+	}
+
+	return c, nil
+}
+
 func esCriterionOperatorFulltext(gen *Elasticsearch, criterion filter.Criterion) (map[string]interface{}, error) {
 	var c = make(map[string]interface{})
 
