@@ -1,9 +1,9 @@
 {
     "Name": "mapper",
-    "CanonicalImportPath": "github.com/ghetzel/pivot/mapper",
+    "CanonicalImportPath": "github.com/PerformLine/pivot/mapper",
     "ImportPath": "mapper",
     "ParentPackage": "pivot",
-    "URL": "https://github.com/ghetzel/pivot",
+    "URL": "https://github.com/PerformLine/pivot",
     "Synopsis": "",
     "MainFunction": false,
     "CommentWordCount": 177,
@@ -51,15 +51,15 @@
                     "Alias": "typeutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/pivot/v3/backends",
+                    "PackageName": "github.com/PerformLine/pivot/v3/backends",
                     "Alias": "backends"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                    "PackageName": "github.com/PerformLine/pivot/v3/dal",
                     "Alias": "dal"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                    "PackageName": "github.com/PerformLine/pivot/v3/filter",
                     "Alias": "filter"
                 }
             ],

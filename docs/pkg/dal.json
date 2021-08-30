@@ -1,9 +1,9 @@
 {
     "Name": "dal",
-    "CanonicalImportPath": "github.com/ghetzel/pivot/dal",
+    "CanonicalImportPath": "github.com/PerformLine/pivot/dal",
     "ImportPath": "dal",
     "ParentPackage": "pivot",
-    "URL": "https://github.com/ghetzel/pivot",
+    "URL": "https://github.com/PerformLine/pivot",
     "Synopsis": "",
     "MainFunction": false,
     "CommentWordCount": 2178,
@@ -395,7 +395,7 @@
                     "Alias": "typeutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/pivot/v3/util",
+                    "PackageName": "github.com/PerformLine/pivot/v3/util",
                     "Alias": "util"
                 }
             ],
