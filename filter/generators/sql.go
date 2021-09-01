@@ -572,12 +572,12 @@ func (self *Sql) WithCriterion(criterion filter.Criterion) error {
 						typedValue = `%%` + fmt.Sprintf("%v", typedValue) + `%%`
 					case `suffix`:
 						typedValue = `%%` + fmt.Sprintf("%v", typedValue)
-					case `or`:
-						// For `or` criteria, we will handle appending in the field logic below
-						break
 					}
 
-					self.values = append(self.values, typedValue)
+					// For `or` operators, add them manually when parsing fields
+					if criterion.Operator != `or` {
+						self.values = append(self.values, typedValue)
+					}
 				}
 
 				// get the syntax-appropriate representation of the value, wrapped in normalization functions
