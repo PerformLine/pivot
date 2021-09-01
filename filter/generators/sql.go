@@ -572,6 +572,9 @@ func (self *Sql) WithCriterion(criterion filter.Criterion) error {
 						typedValue = `%%` + fmt.Sprintf("%v", typedValue) + `%%`
 					case `suffix`:
 						typedValue = `%%` + fmt.Sprintf("%v", typedValue)
+					case `or`:
+						// For `or` criteria, we will handle appending in the field logic below
+						break
 					}
 
 					self.values = append(self.values, typedValue)
@@ -666,6 +669,9 @@ func (self *Sql) WithCriterion(criterion filter.Criterion) error {
 				case `or`:
 					fields := strings.Split(criterion.Field, filter.ValueSeparator)
 					for i, f := range fields {
+
+						// Append the value for each field that needs it
+						self.values = append(self.values, typedValue)
 						outVal = outVal + fmt.Sprintf(`"%v" = %v`, f, value)
 						if i < len(fields)-1 {
 							outVal = outVal + fmt.Sprintf(" OR ")
