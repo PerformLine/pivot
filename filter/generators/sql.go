@@ -665,14 +665,12 @@ func (self *Sql) WithCriterion(criterion filter.Criterion) error {
 					}
 				case `or`:
 					fields := strings.Split(criterion.Field, filter.ValueSeparator)
-					outVal = outVal + fmt.Sprint(" (")
 					for i, f := range fields {
-						outVal = outVal + fmt.Sprintf("%v = %v", f, value)
+						outVal = outVal + fmt.Sprintf(`"%v" = %v`, f, value)
 						if i < len(fields)-1 {
 							outVal = outVal + fmt.Sprintf(" OR ")
 						}
 					}
-					outVal = outVal + fmt.Sprint(") ")
 				default:
 					return fmt.Errorf("Unimplemented operator '%s'", criterion.Operator)
 				}
