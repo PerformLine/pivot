@@ -9,7 +9,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/PerformLine/go-performline-stdlib/log"
 	"github.com/ghetzel/go-stockutil/maputil"
 	"github.com/ghetzel/go-stockutil/rxutil"
 	"github.com/ghetzel/go-stockutil/sliceutil"
@@ -664,18 +663,18 @@ func (self *Sql) WithCriterion(criterion filter.Criterion) error {
 					} else {
 						return fmt.Errorf("Invalid value for 'range' operator")
 					}
-				case `or`:
-					log.Debugf("outVal before `or`: %v", outVal)
-					fields := strings.Split(criterion.Field, filter.ValueSeparator)
-					outVal = outVal + fmt.Sprint(" (")
-					for i, f := range fields {
-						outVal = outVal + fmt.Sprintf("%v = %v", f, value)
-						if i < len(fields)-1 {
-							outVal = outVal + fmt.Sprintf(" OR ")
+				/*
+					case `or`:
+						fields := strings.Split(criterion.Field, filter.ValueSeparator)
+						outVal = outVal + fmt.Sprint(" (")
+						for i, f := range fields {
+							outVal = outVal + fmt.Sprintf("%v = %v", f, value)
+							if i < len(fields)-1 {
+								outVal = outVal + fmt.Sprintf(" OR ")
+							}
 						}
-					}
-					outVal = outVal + fmt.Sprint(") ")
-					log.Debugf("outVal after `or`: %v", outVal)
+						outVal = outVal + fmt.Sprint(") ")
+				*/
 				default:
 					return fmt.Errorf("Unimplemented operator '%s'", criterion.Operator)
 				}
