@@ -511,7 +511,10 @@ func (self *Sql) WithCriterion(criterion filter.Criterion) error {
 		}
 	}
 
-	outFieldName := criterion.Field
+	var outFieldName string
+	if criterion.Operator != `or` {
+		outFieldName = criterion.Field
+	}
 
 	// for multi-valued IN-statements, we need to wrap the field name in the normalizer here
 	if useInStatement {
@@ -542,6 +545,12 @@ func (self *Sql) WithCriterion(criterion filter.Criterion) error {
 			return fmt.Errorf("invalid range lower bound: %v", err)
 		}
 
+	}
+
+	if criterion.Operator == `or` {
+		if !strings.Contains(criterion.Field, filter.ValueSeparator) {
+			return fmt.Errorf("The 'or' operator must be given with two or more fields")
+		}
 	}
 
 	// for each value being tested in this criterion
@@ -579,7 +588,7 @@ func (self *Sql) WithCriterion(criterion filter.Criterion) error {
 
 				outVal := ``
 
-				if !useInStatement {
+				if !useInStatement && criterion.Operator != `or` {
 					outFieldName = self.ToFieldName(criterion.Field)
 					outVal = outFieldName
 				}
@@ -654,6 +663,16 @@ func (self *Sql) WithCriterion(criterion filter.Criterion) error {
 					} else {
 						return fmt.Errorf("Invalid value for 'range' operator")
 					}
+				case `or`:
+					fields := strings.Split(criterion.Field, filter.ValueSeparator)
+					outVal = outVal + fmt.Sprint(" (")
+					for i, f := range fields {
+						outVal = outVal + fmt.Sprintf("%v = %v", f, value)
+						if i < len(fields)-1 {
+							outVal = outVal + fmt.Sprintf(" OR ")
+						}
+					}
+					outVal = outVal + fmt.Sprint(") ")
 				default:
 					return fmt.Errorf("Unimplemented operator '%s'", criterion.Operator)
 				}
