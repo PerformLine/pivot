@@ -3,6 +3,7 @@ module github.com/PerformLine/pivot/v3
 replace github.com/ghetzel/pivot/v3 v3.4.0 => github.com/PerformLine/pivot/v3 v3.4.0
 
 require (
+	github.com/PerformLine/go-performline-stdlib v0.11.112
 	github.com/alexcesaro/statsd v2.0.0+incompatible
 	github.com/aws/aws-sdk-go v1.34.13
 	github.com/blevesearch/bleve v0.7.0
@@ -19,13 +20,12 @@ require (
 	github.com/husobee/vestigo v1.1.0
 	github.com/jbenet/go-base58 v0.0.0-20150317085156-6237cf65f3a6
 	github.com/jdxcode/netrc v0.0.0-20201119100258-050cafb6dbe6
-	github.com/lib/pq v1.1.0
+	github.com/lib/pq v1.2.0
 	github.com/mattn/go-sqlite3 v1.14.4
 	github.com/orcaman/concurrent-map v0.0.0-20180319144342-a05df785d2dc
 	github.com/ory/dockertest v3.3.2+incompatible
 	github.com/stretchr/testify v1.6.1
 	github.com/urfave/negroni v1.0.1-0.20191011213438-f4316798d5d3
-	github.com/yuin/gopher-lua v0.0.0-20190514113301-1cd887cd7036 // indirect
 	gopkg.in/mgo.v2 v2.0.0-20160818020120-3f83fa500528
 )
 
