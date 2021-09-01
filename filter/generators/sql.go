@@ -663,18 +663,16 @@ func (self *Sql) WithCriterion(criterion filter.Criterion) error {
 					} else {
 						return fmt.Errorf("Invalid value for 'range' operator")
 					}
-				/*
-					case `or`:
-						fields := strings.Split(criterion.Field, filter.ValueSeparator)
-						outVal = outVal + fmt.Sprint(" (")
-						for i, f := range fields {
-							outVal = outVal + fmt.Sprintf("%v = %v", f, value)
-							if i < len(fields)-1 {
-								outVal = outVal + fmt.Sprintf(" OR ")
-							}
+				case `or`:
+					fields := strings.Split(criterion.Field, filter.ValueSeparator)
+					outVal = outVal + fmt.Sprint(" (")
+					for i, f := range fields {
+						outVal = outVal + fmt.Sprintf("%v = %v", f, value)
+						if i < len(fields)-1 {
+							outVal = outVal + fmt.Sprintf(" OR ")
 						}
-						outVal = outVal + fmt.Sprint(") ")
-				*/
+					}
+					outVal = outVal + fmt.Sprint(") ")
 				default:
 					return fmt.Errorf("Unimplemented operator '%s'", criterion.Operator)
 				}
