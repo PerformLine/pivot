@@ -5,11 +5,11 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/ghetzel/go-stockutil/sliceutil"
-	"github.com/ghetzel/go-stockutil/stringutil"
-	"github.com/ghetzel/go-stockutil/structutil"
-	"github.com/ghetzel/go-stockutil/typeutil"
-	"github.com/ghetzel/pivot/v3/util"
+	"github.com/PerformLine/go-stockutil/sliceutil"
+	"github.com/PerformLine/go-stockutil/stringutil"
+	"github.com/PerformLine/go-stockutil/structutil"
+	"github.com/PerformLine/go-stockutil/typeutil"
+	"github.com/PerformLine/pivot/v3/util"
 )
 
 var RecordStructTag = util.RecordStructTag

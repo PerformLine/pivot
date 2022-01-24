@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/fatih/structs"
-	"github.com/ghetzel/go-stockutil/sliceutil"
-	"github.com/ghetzel/go-stockutil/typeutil"
+	"github.com/PerformLine/go-stockutil/sliceutil"
+	"github.com/PerformLine/go-stockutil/typeutil"
 )
 
 var DefaultFieldCodec = `json`

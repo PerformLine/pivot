@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ghetzel/go-stockutil/stringutil"
-	"github.com/ghetzel/pivot/v3/dal"
-	"github.com/ghetzel/pivot/v3/filter"
-	"github.com/ghetzel/pivot/v3/filter/generators"
+	"github.com/PerformLine/go-stockutil/stringutil"
+	"github.com/PerformLine/pivot/v3/dal"
+	"github.com/PerformLine/pivot/v3/filter"
+	"github.com/PerformLine/pivot/v3/filter/generators"
 	_ "github.com/go-sql-driver/mysql"
 )
 

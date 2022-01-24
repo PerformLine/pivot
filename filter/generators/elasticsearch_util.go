@@ -3,8 +3,8 @@ package generators
 import (
 	"fmt"
 
-	"github.com/ghetzel/go-stockutil/typeutil"
-	"github.com/ghetzel/pivot/v3/filter"
+	"github.com/PerformLine/go-stockutil/typeutil"
+	"github.com/PerformLine/pivot/v3/filter"
 )
 
 var ElasticsearchExactMatchQueryType = `term`

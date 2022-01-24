@@ -4,8 +4,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ghetzel/pivot/v3/dal"
-	"github.com/ghetzel/pivot/v3/filter"
+	"github.com/PerformLine/pivot/v3/dal"
+	"github.com/PerformLine/pivot/v3/filter"
 )
 
 type EmbeddedRecordBackend struct {

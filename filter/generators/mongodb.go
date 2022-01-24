@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/ghetzel/go-stockutil/stringutil"
-	"github.com/ghetzel/pivot/v3/filter"
+	"github.com/PerformLine/go-stockutil/stringutil"
+	"github.com/PerformLine/pivot/v3/filter"
 )
 
 // MongoDB Query Generator

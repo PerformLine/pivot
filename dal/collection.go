@@ -5,10 +5,10 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/ghetzel/go-stockutil/log"
-	"github.com/ghetzel/go-stockutil/sliceutil"
-	"github.com/ghetzel/go-stockutil/structutil"
-	"github.com/ghetzel/go-stockutil/typeutil"
+	"github.com/PerformLine/go-stockutil/log"
+	"github.com/PerformLine/go-stockutil/sliceutil"
+	"github.com/PerformLine/go-stockutil/structutil"
+	"github.com/PerformLine/go-stockutil/typeutil"
 )
 
 type CollectionAction int
