@@ -5,9 +5,9 @@ import (
 	"net/url"
 	"regexp"
 
-	"github.com/ghetzel/go-stockutil/sliceutil"
-	"github.com/ghetzel/go-stockutil/stringutil"
-	"github.com/ghetzel/go-stockutil/typeutil"
+	"github.com/PerformLine/go-stockutil/sliceutil"
+	"github.com/PerformLine/go-stockutil/stringutil"
+	"github.com/PerformLine/go-stockutil/typeutil"
 )
 
 // Retrieve a validator by name.  Used by the ValidatorConfig configuration on Field.
