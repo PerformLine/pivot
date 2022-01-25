@@ -1,14 +1,19 @@
 module github.com/PerformLine/pivot/v3
 
+replace github.com/PerformLine/diecast => /home/jmoorhead/projects/pline/godev/diecast
+
 require (
 	cloud.google.com/go v0.56.0 // indirect
 	github.com/Azure/go-ansiterm v0.0.0-20170929234023-d6e3b3328b78 // indirect
+	github.com/HdrHistogram/hdrhistogram-go v1.1.2 // indirect
+	github.com/Microsoft/go-winio v0.5.1 // indirect
 	github.com/Nvveen/Gotty v0.0.0-20120604004816-cd527374f1e5 // indirect
-	github.com/PerformLine/diecast v1.21.12
+	github.com/PerformLine/diecast v1.21.16
 	github.com/PerformLine/go-stockutil v1.9.2
 	github.com/RoaringBitmap/roaring v0.4.4 // indirect
 	github.com/Smerity/govarint v0.0.0-20150407073650-7265e41f48f1 // indirect
 	github.com/alexcesaro/statsd v2.0.0+incompatible
+	github.com/alicebob/gopher-json v0.0.0-20200520072559-a9ecdc9d1d3a // indirect
 	github.com/aws/aws-sdk-go v1.34.13
 	github.com/blevesearch/bleve v0.7.0
 	github.com/blevesearch/blevex v0.0.0-20180227211930-4b158bb555a3 // indirect
@@ -21,6 +26,8 @@ require (
 	github.com/cznic/mathutil v0.0.0-20181021201202-eba54fb065b7 // indirect
 	github.com/cznic/strutil v0.0.0-20171016134553-529a34b1c186 // indirect
 	github.com/deckarep/golang-set v0.0.0-20171013212420-1d4478f51bed
+	github.com/docker/distribution v2.7.1+incompatible // indirect
+	github.com/docker/go-units v0.4.0 // indirect
 	github.com/edsrzf/mmap-go v0.0.0-20170320065105-0bce6a688712 // indirect
 	github.com/facebookgo/ensure v0.0.0-20160127193407-b4ab57deab51 // indirect
 	github.com/facebookgo/stack v0.0.0-20160209184415-751773369052 // indirect
@@ -39,12 +46,14 @@ require (
 	github.com/jbenet/go-base58 v0.0.0-20150317085156-6237cf65f3a6
 	github.com/jdxcode/netrc v0.0.0-20210204082910-926c7f70242a
 	github.com/jmhodges/levigo v0.0.0-20161115193449-c42d9e0ca023 // indirect
+	github.com/jsummers/gobmp v0.0.0-20151104160322-e2ba15ffa76e // indirect
 	github.com/jtolds/gls v4.2.1+incompatible // indirect
 	github.com/lib/pq v1.2.0
 	github.com/mattn/go-runewidth v0.0.9 // indirect
 	github.com/mattn/go-shellwords v1.0.10 // indirect
 	github.com/mattn/go-sqlite3 v1.14.4
 	github.com/mschoch/smat v0.0.0-20160514031455-90eadee771ae // indirect
+	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.0.1 // indirect
 	github.com/opencontainers/runc v1.0.0-rc5 // indirect
 	github.com/orcaman/concurrent-map v0.0.0-20180319144342-a05df785d2dc
@@ -59,12 +68,14 @@ require (
 	github.com/syndtr/goleveldb v0.0.0-20181105012736-f9080354173f // indirect
 	github.com/tecbot/gorocksdb v0.0.0-20181010114359-8752a9433481 // indirect
 	github.com/tinylib/msgp v1.0.2 // indirect
+	github.com/uber/jaeger-lib v2.4.1+incompatible // indirect
 	github.com/urfave/cli v1.22.5
 	github.com/urfave/negroni v1.0.1-0.20191011213438-f4316798d5d3
 	github.com/willf/bitset v0.0.0-20161202170036-5c3c0fce4884 // indirect
+	github.com/yuin/gopher-lua v0.0.0-20210529063254-f4c35e4016d9 // indirect
+	go.uber.org/atomic v1.9.0 // indirect
 	golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20210616094352-59db8d763f22 // indirect
 	gopkg.in/alexcesaro/statsd.v2 v2.0.0 // indirect
 	gopkg.in/mgo.v2 v2.0.0-20160818020120-3f83fa500528
 	gotest.tools v2.1.0+incompatible // indirect
