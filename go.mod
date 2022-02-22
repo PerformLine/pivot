@@ -4,7 +4,7 @@ require (
 	github.com/Azure/go-ansiterm v0.0.0-20170929234023-d6e3b3328b78 // indirect
 	github.com/Microsoft/go-winio v0.5.1 // indirect
 	github.com/Nvveen/Gotty v0.0.0-20120604004816-cd527374f1e5 // indirect
-	github.com/PerformLine/diecast v1.22.0
+	github.com/PerformLine/diecast v1.21.22-0.20220222175117-b37e9aeba562
 	github.com/PerformLine/go-stockutil v1.9.2
 	github.com/RoaringBitmap/roaring v0.4.4 // indirect
 	github.com/Smerity/govarint v0.0.0-20150407073650-7265e41f48f1 // indirect

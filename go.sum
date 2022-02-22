@@ -60,8 +60,8 @@ github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAE
 github.com/PerformLine/argonaut v0.2.2 h1:GGkBasOYUe/JWDWIq0nLPcqry5Ku+eXaIVpSi+kD/Hk=
 github.com/PerformLine/argonaut v0.2.2/go.mod h1:UPH05Rq2hwqzJu+WGoVOLD5GuDxdolAIsH0tYxKLQcU=
 github.com/PerformLine/diecast v1.21.21/go.mod h1:uUIi5NxncKBPppT31XJXTfr5lmMaYzP60z+ZZu4Zth8=
-github.com/PerformLine/diecast v1.22.0 h1:+shEeGhQXnBDvcjVhwceXNji1k022QnZ9pSQj/B0ESU=
-github.com/PerformLine/diecast v1.22.0/go.mod h1:uR0uxSO8Bu9IWnh5ZwG1fDyX3kvOvpt3wiyFyo6478s=
+github.com/PerformLine/diecast v1.21.22-0.20220222175117-b37e9aeba562 h1:8ikLViPiSSfydd0sB5Pmf27qQfLMnlf4GF87377tbXY=
+github.com/PerformLine/diecast v1.21.22-0.20220222175117-b37e9aeba562/go.mod h1:uR0uxSO8Bu9IWnh5ZwG1fDyX3kvOvpt3wiyFyo6478s=
 github.com/PerformLine/friendscript v1.6.7 h1:ikUtLC7Wa2aLXeN2wwgk4e+9YT8ONMAGLDIkgda2h4Q=
 github.com/PerformLine/friendscript v1.6.7/go.mod h1:LL33L4gru8kmL+PN9XzcERTzhPlFx2RhvxCOAZ8w3Ek=
 github.com/PerformLine/go-stockutil v1.9.2 h1:l2bDDZlA8x6BEjLQrVAy3S+VoQcXy2SKRPIMobhTcHM=
