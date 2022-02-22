@@ -1,11 +1,10 @@
 module github.com/PerformLine/pivot/v3
 
 require (
-	cloud.google.com/go v0.56.0 // indirect
 	github.com/Azure/go-ansiterm v0.0.0-20170929234023-d6e3b3328b78 // indirect
 	github.com/Microsoft/go-winio v0.5.1 // indirect
 	github.com/Nvveen/Gotty v0.0.0-20120604004816-cd527374f1e5 // indirect
-	github.com/PerformLine/diecast v1.21.21
+	github.com/PerformLine/diecast v1.22.0
 	github.com/PerformLine/go-stockutil v1.9.2
 	github.com/RoaringBitmap/roaring v0.4.4 // indirect
 	github.com/Smerity/govarint v0.0.0-20150407073650-7265e41f48f1 // indirect
@@ -38,13 +37,12 @@ require (
 	github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e // indirect
 	github.com/gotestyourself/gotestyourself v2.1.0+incompatible // indirect
 	github.com/hashicorp/golang-lru v0.5.1
-	github.com/husobee/vestigo v1.1.0
+	github.com/husobee/vestigo v1.1.1
 	github.com/jbenet/go-base58 v0.0.0-20150317085156-6237cf65f3a6
 	github.com/jdxcode/netrc v0.0.0-20210204082910-926c7f70242a
 	github.com/jmhodges/levigo v0.0.0-20161115193449-c42d9e0ca023 // indirect
 	github.com/jtolds/gls v4.2.1+incompatible // indirect
 	github.com/lib/pq v1.2.0
-	github.com/mattn/go-shellwords v1.0.10 // indirect
 	github.com/mattn/go-sqlite3 v1.14.4
 	github.com/mschoch/smat v0.0.0-20160514031455-90eadee771ae // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
@@ -54,7 +52,6 @@ require (
 	github.com/ory/dockertest v3.3.2+incompatible
 	github.com/philhofer/fwd v1.0.0 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20170806203942-52369c62f446 // indirect
-	github.com/sirupsen/logrus v1.8.1 // indirect
 	github.com/smartystreets/assertions v0.0.0-20180927180507-b2de0cb4f26d // indirect
 	github.com/smartystreets/goconvey v0.0.0-20181108003508-044398e4856c // indirect
 	github.com/steveyen/gtreap v0.0.0-20150807155958-0abe01ef9be2 // indirect
@@ -65,7 +62,6 @@ require (
 	github.com/urfave/cli v1.22.5
 	github.com/urfave/negroni v1.0.1-0.20191011213438-f4316798d5d3
 	github.com/willf/bitset v0.0.0-20161202170036-5c3c0fce4884 // indirect
-	golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4 // indirect
 	gopkg.in/alexcesaro/statsd.v2 v2.0.0 // indirect
 	gopkg.in/mgo.v2 v2.0.0-20160818020120-3f83fa500528
 	gotest.tools v2.1.0+incompatible // indirect
