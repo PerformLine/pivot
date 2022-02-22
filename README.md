@@ -1,4 +1,4 @@
-# Pivot [![GoDoc](https://godoc.org/github.com/ghetzel/pivot?status.svg)](https://godoc.org/github.com/ghetzel/pivot) [![TravisCI](https://travis-ci.org/ghetzel/pivot.svg?branch=v3)](https://travis-ci.org/ghetzel/pivot)
+# Pivot [![GoDoc](https://godoc.org/github.com/PerformLine/pivot?status.svg)](https://godoc.org/github.com/PerformLine/pivot) [![TravisCI](https://travis-ci.org/ghetzel/pivot.svg?branch=v3)](https://travis-ci.org/ghetzel/pivot)
 
 Pivot is a library used to access, query, and aggregate data across a variety of database systems, written in Golang.
 
@@ -42,9 +42,9 @@ import (
     "fmt"
     "time"
 
-    "github.com/ghetzel/pivot/v3"
-    "github.com/ghetzel/pivot/v3/dal"
-    "github.com/ghetzel/pivot/v3/mapper"
+    "github.com/PerformLine/pivot/v3"
+    "github.com/PerformLine/pivot/v3/dal"
+    "github.com/PerformLine/pivot/v3/mapper"
 )
 
 var Widgets mapper.Mapper
