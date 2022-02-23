@@ -3,8 +3,8 @@ module github.com/PerformLine/pivot/v3
 go 1.17
 
 require (
-	github.com/PerformLine/diecast v1.21.22-0.20220222202421-1fd52875b077
-	github.com/PerformLine/go-stockutil v1.9.3-0.20220222201122-cc24eac52267
+	github.com/PerformLine/diecast v1.21.22
+	github.com/PerformLine/go-stockutil v1.9.3
 	github.com/alexcesaro/statsd v2.0.0+incompatible
 	github.com/aws/aws-sdk-go v1.43.4
 	github.com/blevesearch/bleve v1.0.14
@@ -28,15 +28,20 @@ require (
 )
 
 require (
+	github.com/docker/distribution v2.8.0+incompatible // indirect
+	github.com/docker/docker v1.13.1 // indirect
+)
+
+require (
 	cloud.google.com/go v0.65.0 // indirect
 	github.com/Azure/go-ansiterm v0.0.0-20210617225240-d185dfc1b5a1 // indirect
 	github.com/GehirnInc/crypt v0.0.0-20200316065508-bb7000b8a962 // indirect
 	github.com/Microsoft/go-winio v0.5.2 // indirect
 	github.com/Nvveen/Gotty v0.0.0-20120604004816-cd527374f1e5 // indirect
-	github.com/PerformLine/argonaut v0.2.2 // indirect
-	github.com/PerformLine/friendscript v1.6.7 // indirect
-	github.com/PerformLine/go-webfriend v1.9.64 // indirect
-	github.com/PerformLine/ratelimit v1.1.0 // indirect
+	github.com/PerformLine/argonaut v0.2.3 // indirect
+	github.com/PerformLine/friendscript v1.8.0 // indirect
+	github.com/PerformLine/go-webfriend v1.9.65 // indirect
+	github.com/PerformLine/ratelimit v1.1.1 // indirect
 	github.com/PuerkitoBio/goquery v1.8.0 // indirect
 	github.com/RoaringBitmap/roaring v0.4.23 // indirect
 	github.com/alecthomas/chroma v0.10.0 // indirect
