@@ -1,9 +1,9 @@
 {
     "Name": "dal",
-    "CanonicalImportPath": "github.com/ghetzel/pivot/dal",
+    "CanonicalImportPath": "github.com/PerformLine/pivot/dal",
     "ImportPath": "dal",
     "ParentPackage": "pivot",
-    "URL": "https://github.com/ghetzel/pivot",
+    "URL": "https://github.com/PerformLine/pivot",
     "Synopsis": "",
     "MainFunction": false,
     "CommentWordCount": 2178,
@@ -39,19 +39,19 @@
                     "Alias": "time"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/log",
+                    "PackageName": "github.com/PerformLine/go-stockutil/log",
                     "Alias": "log"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                     "Alias": "sliceutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/structutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/structutil",
                     "Alias": "structutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                     "Alias": "typeutil"
                 }
             ],
@@ -111,23 +111,23 @@
                     "Alias": "time"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/fileutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/fileutil",
                     "Alias": "fileutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/log",
+                    "PackageName": "github.com/PerformLine/go-stockutil/log",
                     "Alias": "log"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                     "Alias": "sliceutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                     "Alias": "stringutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                     "Alias": "typeutil"
                 },
                 {
@@ -211,11 +211,11 @@
                     "Alias": "structs"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                     "Alias": "sliceutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                     "Alias": "typeutil"
                 }
             ],
@@ -243,7 +243,7 @@
                     "Alias": "time"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/utils",
+                    "PackageName": "github.com/PerformLine/go-stockutil/utils",
                     "Alias": "utils"
                 },
                 {
@@ -291,15 +291,15 @@
                     "Alias": "time"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                     "Alias": "sliceutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                     "Alias": "stringutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                     "Alias": "typeutil"
                 },
                 {
@@ -339,19 +339,19 @@
                     "Alias": "time"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/log",
+                    "PackageName": "github.com/PerformLine/go-stockutil/log",
                     "Alias": "log"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/maputil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/maputil",
                     "Alias": "maputil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                     "Alias": "sliceutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                     "Alias": "typeutil"
                 }
             ],
@@ -379,23 +379,23 @@
                     "Alias": "strings"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                     "Alias": "sliceutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                     "Alias": "stringutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/structutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/structutil",
                     "Alias": "structutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                     "Alias": "typeutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/pivot/v3/util",
+                    "PackageName": "github.com/PerformLine/pivot/v3/util",
                     "Alias": "util"
                 }
             ],
@@ -439,7 +439,7 @@
                     "Alias": "testing"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                     "Alias": "stringutil"
                 },
                 {
@@ -467,7 +467,7 @@
                     "Alias": "reflect"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                     "Alias": "typeutil"
                 }
             ],
@@ -525,11 +525,11 @@
                     "Alias": "strings"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/log",
+                    "PackageName": "github.com/PerformLine/go-stockutil/log",
                     "Alias": "log"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/maputil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/maputil",
                     "Alias": "maputil"
                 }
             ],
@@ -557,15 +557,15 @@
                     "Alias": "regexp"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                     "Alias": "sliceutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                     "Alias": "stringutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                     "Alias": "typeutil"
                 }
             ],

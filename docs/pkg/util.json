@@ -1,9 +1,9 @@
 {
     "Name": "util",
-    "CanonicalImportPath": "github.com/ghetzel/pivot/util",
+    "CanonicalImportPath": "github.com/PerformLine/pivot/util",
     "ImportPath": "util",
     "ParentPackage": "pivot",
-    "URL": "https://github.com/ghetzel/pivot",
+    "URL": "https://github.com/PerformLine/pivot",
     "Synopsis": "",
     "MainFunction": false,
     "CommentWordCount": 0,

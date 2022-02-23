@@ -1,9 +1,9 @@
 {
     "Name": "pivot",
-    "CanonicalImportPath": "github.com/ghetzel/pivot",
+    "CanonicalImportPath": "github.com/PerformLine/pivot",
     "ImportPath": "pivot",
     "ParentPackage": "",
-    "URL": "https://github.com/ghetzel/pivot",
+    "URL": "https://github.com/PerformLine/pivot",
     "Synopsis": "",
     "MainFunction": false,
     "CommentWordCount": 189,
@@ -55,15 +55,15 @@
                     "Alias": "fmt"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/pivot/v3/backends",
+                    "PackageName": "github.com/PerformLine/pivot/v3/backends",
                     "Alias": "backends"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                    "PackageName": "github.com/PerformLine/pivot/v3/dal",
                     "Alias": "dal"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/pivot/v3/mapper",
+                    "PackageName": "github.com/PerformLine/pivot/v3/mapper",
                     "Alias": "mapper"
                 }
             ],
@@ -111,35 +111,35 @@
                     "Alias": "time"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/log",
+                    "PackageName": "github.com/PerformLine/go-stockutil/log",
                     "Alias": "log"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                     "Alias": "sliceutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                     "Alias": "stringutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                     "Alias": "typeutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/pivot/v3/backends",
+                    "PackageName": "github.com/PerformLine/pivot/v3/backends",
                     "Alias": "backends"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                    "PackageName": "github.com/PerformLine/pivot/v3/dal",
                     "Alias": "dal"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                    "PackageName": "github.com/PerformLine/pivot/v3/filter",
                     "Alias": "filter"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/pivot/v3/mapper",
+                    "PackageName": "github.com/PerformLine/pivot/v3/mapper",
                     "Alias": "mapper"
                 },
                 {
@@ -199,31 +199,31 @@
                     "Alias": "time"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/fileutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/fileutil",
                     "Alias": "fileutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/log",
+                    "PackageName": "github.com/PerformLine/go-stockutil/log",
                     "Alias": "log"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                     "Alias": "sliceutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                     "Alias": "typeutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/pivot/v3/backends",
+                    "PackageName": "github.com/PerformLine/pivot/v3/backends",
                     "Alias": "backends"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                    "PackageName": "github.com/PerformLine/pivot/v3/dal",
                     "Alias": "dal"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                    "PackageName": "github.com/PerformLine/pivot/v3/filter",
                     "Alias": "filter"
                 },
                 {
@@ -275,51 +275,51 @@
                     "Alias": "time"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/diecast",
+                    "PackageName": "github.com/PerformLine/diecast",
                     "Alias": "diecast"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/fileutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/fileutil",
                     "Alias": "fileutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/httputil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/httputil",
                     "Alias": "httputil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/log",
+                    "PackageName": "github.com/PerformLine/go-stockutil/log",
                     "Alias": "log"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/maputil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/maputil",
                     "Alias": "maputil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/pathutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/pathutil",
                     "Alias": "pathutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                     "Alias": "stringutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                    "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                     "Alias": "typeutil"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/pivot/v3/backends",
+                    "PackageName": "github.com/PerformLine/pivot/v3/backends",
                     "Alias": "backends"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                    "PackageName": "github.com/PerformLine/pivot/v3/dal",
                     "Alias": "dal"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                    "PackageName": "github.com/PerformLine/pivot/v3/filter",
                     "Alias": "filter"
                 },
                 {
-                    "PackageName": "github.com/ghetzel/pivot/v3/util",
+                    "PackageName": "github.com/PerformLine/pivot/v3/util",
                     "Alias": "util"
                 },
                 {
@@ -979,10 +979,10 @@
     "Packages": [
         {
             "Name": "backends",
-            "CanonicalImportPath": "github.com/ghetzel/pivot/backends",
+            "CanonicalImportPath": "github.com/PerformLine/pivot/backends",
             "ImportPath": "backends",
             "ParentPackage": "pivot",
-            "URL": "https://github.com/ghetzel/pivot",
+            "URL": "https://github.com/PerformLine/pivot",
             "Synopsis": "",
             "MainFunction": false,
             "CommentWordCount": 250,
@@ -1006,11 +1006,11 @@
                     "Name": "aggregator.go",
                     "Imports": [
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         }
                     ],
@@ -1038,15 +1038,15 @@
                             "Alias": "statsd"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/log",
+                            "PackageName": "github.com/PerformLine/go-stockutil/log",
                             "Alias": "log"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         }
                     ],
@@ -1114,23 +1114,23 @@
                             "Alias": "query"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/log",
+                            "PackageName": "github.com/PerformLine/go-stockutil/log",
                             "Alias": "log"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                             "Alias": "stringutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         },
                         {
@@ -1158,15 +1158,15 @@
                             "Alias": "time"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                             "Alias": "typeutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         }
                     ],
@@ -1202,11 +1202,11 @@
                             "Alias": "dynamodb"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         }
                     ],
@@ -1266,35 +1266,35 @@
                             "Alias": "dynamodbattribute"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/fileutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/fileutil",
                             "Alias": "fileutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/log",
+                            "PackageName": "github.com/PerformLine/go-stockutil/log",
                             "Alias": "log"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/maputil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/maputil",
                             "Alias": "maputil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                             "Alias": "stringutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                             "Alias": "typeutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         }
                     ],
@@ -1322,7 +1322,7 @@
                             "Alias": "dynamodb"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
@@ -1350,15 +1350,15 @@
                             "Alias": "fmt"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter/generators",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter/generators",
                             "Alias": "generators"
                         }
                     ],
@@ -1410,27 +1410,27 @@
                             "Alias": "time"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/log",
+                            "PackageName": "github.com/PerformLine/go-stockutil/log",
                             "Alias": "log"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/maputil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/maputil",
                             "Alias": "maputil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter/generators",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter/generators",
                             "Alias": "generators"
                         }
                     ],
@@ -1454,11 +1454,11 @@
                             "Alias": "time"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         }
                     ],
@@ -1522,27 +1522,27 @@
                             "Alias": "unicode"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/fileutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/fileutil",
                             "Alias": "fileutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/log",
+                            "PackageName": "github.com/PerformLine/go-stockutil/log",
                             "Alias": "log"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                             "Alias": "typeutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/utils",
+                            "PackageName": "github.com/PerformLine/go-stockutil/utils",
                             "Alias": "utilutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         }
                     ],
@@ -1558,19 +1558,19 @@
                     "Name": "fs-indexer.go",
                     "Imports": [
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                             "Alias": "stringutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         }
                     ],
@@ -1614,15 +1614,15 @@
                             "Alias": "time"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/pathutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/pathutil",
                             "Alias": "pathutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         },
                         {
@@ -1654,11 +1654,11 @@
                             "Alias": "rand"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         }
                     ],
@@ -1674,11 +1674,11 @@
                     "Name": "indexer-null.go",
                     "Imports": [
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         }
                     ],
@@ -1706,19 +1706,19 @@
                             "Alias": "strings"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/log",
+                            "PackageName": "github.com/PerformLine/go-stockutil/log",
                             "Alias": "log"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         }
                     ],
@@ -1734,11 +1734,11 @@
                     "Name": "mapper.go",
                     "Imports": [
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         }
                     ],
@@ -1766,19 +1766,19 @@
                             "Alias": "golang-set"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/log",
+                            "PackageName": "github.com/PerformLine/go-stockutil/log",
                             "Alias": "log"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                             "Alias": "stringutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         }
                     ],
@@ -1806,15 +1806,15 @@
                             "Alias": "time"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                             "Alias": "stringutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         },
                         {
@@ -1842,31 +1842,31 @@
                             "Alias": "fmt"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/maputil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/maputil",
                             "Alias": "maputil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                             "Alias": "stringutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                             "Alias": "typeutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter/generators",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter/generators",
                             "Alias": "generators"
                         },
                         {
@@ -1898,23 +1898,23 @@
                             "Alias": "time"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/maputil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/maputil",
                             "Alias": "maputil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                             "Alias": "stringutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         },
                         {
@@ -1956,11 +1956,11 @@
                             "Alias": "math"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         },
                         {
@@ -2000,27 +2000,27 @@
                             "Alias": "time"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/log",
+                            "PackageName": "github.com/PerformLine/go-stockutil/log",
                             "Alias": "log"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/maputil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/maputil",
                             "Alias": "maputil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/utils",
+                            "PackageName": "github.com/PerformLine/go-stockutil/utils",
                             "Alias": "utils"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         },
                         {
@@ -2068,31 +2068,31 @@
                             "Alias": "strings"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/log",
+                            "PackageName": "github.com/PerformLine/go-stockutil/log",
                             "Alias": "log"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/maputil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/maputil",
                             "Alias": "maputil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                             "Alias": "stringutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                             "Alias": "typeutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         }
                     ],
@@ -2116,19 +2116,19 @@
                             "Alias": "reflect"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                             "Alias": "typeutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter/generators",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter/generators",
                             "Alias": "generators"
                         }
                     ],
@@ -2156,19 +2156,19 @@
                             "Alias": "strings"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                             "Alias": "stringutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter/generators",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter/generators",
                             "Alias": "generators"
                         },
                         {
@@ -2200,27 +2200,27 @@
                             "Alias": "strings"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                             "Alias": "stringutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                             "Alias": "typeutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter/generators",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter/generators",
                             "Alias": "generators"
                         },
                         {
@@ -2256,27 +2256,27 @@
                             "Alias": "path"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/log",
+                            "PackageName": "github.com/PerformLine/go-stockutil/log",
                             "Alias": "log"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/maputil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/maputil",
                             "Alias": "maputil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                             "Alias": "stringutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter/generators",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter/generators",
                             "Alias": "generators"
                         },
                         {
@@ -2304,19 +2304,19 @@
                             "Alias": "reflect"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter/generators",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter/generators",
                             "Alias": "generators"
                         }
                     ],
@@ -2364,35 +2364,35 @@
                             "Alias": "unicode"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/log",
+                            "PackageName": "github.com/PerformLine/go-stockutil/log",
                             "Alias": "log"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/maputil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/maputil",
                             "Alias": "maputil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                             "Alias": "typeutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter/generators",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter/generators",
                             "Alias": "generators"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/util",
+                            "PackageName": "github.com/PerformLine/pivot/v3/util",
                             "Alias": "util"
                         }
                     ],
@@ -9757,10 +9757,10 @@
         },
         {
             "Name": "client",
-            "CanonicalImportPath": "github.com/ghetzel/pivot/client",
+            "CanonicalImportPath": "github.com/PerformLine/pivot/client",
             "ImportPath": "client",
             "ParentPackage": "pivot",
-            "URL": "https://github.com/ghetzel/pivot",
+            "URL": "https://github.com/PerformLine/pivot",
             "Synopsis": "",
             "MainFunction": false,
             "CommentWordCount": 0,
@@ -9796,23 +9796,23 @@
                             "Alias": "strings"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/httputil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/httputil",
                             "Alias": "httputil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                             "Alias": "typeutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/util",
+                            "PackageName": "github.com/PerformLine/pivot/v3/util",
                             "Alias": "util"
                         }
                     ],
@@ -10134,10 +10134,10 @@
         },
         {
             "Name": "dal",
-            "CanonicalImportPath": "github.com/ghetzel/pivot/dal",
+            "CanonicalImportPath": "github.com/PerformLine/pivot/dal",
             "ImportPath": "dal",
             "ParentPackage": "pivot",
-            "URL": "https://github.com/ghetzel/pivot",
+            "URL": "https://github.com/PerformLine/pivot",
             "Synopsis": "",
             "MainFunction": false,
             "CommentWordCount": 2178,
@@ -10173,19 +10173,19 @@
                             "Alias": "time"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/log",
+                            "PackageName": "github.com/PerformLine/go-stockutil/log",
                             "Alias": "log"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/structutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/structutil",
                             "Alias": "structutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                             "Alias": "typeutil"
                         }
                     ],
@@ -10245,23 +10245,23 @@
                             "Alias": "time"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/fileutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/fileutil",
                             "Alias": "fileutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/log",
+                            "PackageName": "github.com/PerformLine/go-stockutil/log",
                             "Alias": "log"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                             "Alias": "stringutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                             "Alias": "typeutil"
                         },
                         {
@@ -10345,11 +10345,11 @@
                             "Alias": "structs"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                             "Alias": "typeutil"
                         }
                     ],
@@ -10377,7 +10377,7 @@
                             "Alias": "time"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/utils",
+                            "PackageName": "github.com/PerformLine/go-stockutil/utils",
                             "Alias": "utils"
                         },
                         {
@@ -10425,15 +10425,15 @@
                             "Alias": "time"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                             "Alias": "stringutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                             "Alias": "typeutil"
                         },
                         {
@@ -10473,19 +10473,19 @@
                             "Alias": "time"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/log",
+                            "PackageName": "github.com/PerformLine/go-stockutil/log",
                             "Alias": "log"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/maputil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/maputil",
                             "Alias": "maputil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                             "Alias": "typeutil"
                         }
                     ],
@@ -10513,23 +10513,23 @@
                             "Alias": "strings"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                             "Alias": "stringutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/structutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/structutil",
                             "Alias": "structutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                             "Alias": "typeutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/util",
+                            "PackageName": "github.com/PerformLine/pivot/v3/util",
                             "Alias": "util"
                         }
                     ],
@@ -10573,7 +10573,7 @@
                             "Alias": "testing"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                             "Alias": "stringutil"
                         },
                         {
@@ -10601,7 +10601,7 @@
                             "Alias": "reflect"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                             "Alias": "typeutil"
                         }
                     ],
@@ -10659,11 +10659,11 @@
                             "Alias": "strings"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/log",
+                            "PackageName": "github.com/PerformLine/go-stockutil/log",
                             "Alias": "log"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/maputil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/maputil",
                             "Alias": "maputil"
                         }
                     ],
@@ -10691,15 +10691,15 @@
                             "Alias": "regexp"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                             "Alias": "stringutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                             "Alias": "typeutil"
                         }
                     ],
@@ -14182,10 +14182,10 @@
         },
         {
             "Name": "filter",
-            "CanonicalImportPath": "github.com/ghetzel/pivot/filter",
+            "CanonicalImportPath": "github.com/PerformLine/pivot/filter",
             "ImportPath": "filter",
             "ParentPackage": "pivot",
-            "URL": "https://github.com/ghetzel/pivot",
+            "URL": "https://github.com/PerformLine/pivot",
             "Synopsis": "",
             "MainFunction": false,
             "CommentWordCount": 3,
@@ -14237,31 +14237,31 @@
                             "Alias": "structs"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/maputil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/maputil",
                             "Alias": "maputil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                             "Alias": "stringutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/timeutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/timeutil",
                             "Alias": "timeutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                             "Alias": "typeutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/util",
+                            "PackageName": "github.com/PerformLine/pivot/v3/util",
                             "Alias": "util"
                         }
                     ],
@@ -14281,7 +14281,7 @@
                             "Alias": "testing"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
@@ -14305,7 +14305,7 @@
                             "Alias": "testing"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
@@ -15284,10 +15284,10 @@
             "Packages": [
                 {
                     "Name": "generators",
-                    "CanonicalImportPath": "github.com/ghetzel/pivot/filter/generators",
+                    "CanonicalImportPath": "github.com/PerformLine/pivot/filter/generators",
                     "ImportPath": "filter/generators",
                     "ParentPackage": "filter",
-                    "URL": "https://github.com/ghetzel/pivot",
+                    "URL": "https://github.com/PerformLine/pivot",
                     "Synopsis": "",
                     "MainFunction": false,
                     "CommentWordCount": 16,
@@ -15319,7 +15319,7 @@
                                     "Alias": "fmt"
                                 },
                                 {
-                                    "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                                    "PackageName": "github.com/PerformLine/pivot/v3/filter",
                                     "Alias": "filter"
                                 }
                             ],
@@ -15339,11 +15339,11 @@
                                     "Alias": "fmt"
                                 },
                                 {
-                                    "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                                    "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                                     "Alias": "typeutil"
                                 },
                                 {
-                                    "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                                    "PackageName": "github.com/PerformLine/pivot/v3/filter",
                                     "Alias": "filter"
                                 }
                             ],
@@ -15367,11 +15367,11 @@
                                     "Alias": "regexp"
                                 },
                                 {
-                                    "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                                    "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                                     "Alias": "stringutil"
                                 },
                                 {
-                                    "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                                    "PackageName": "github.com/PerformLine/pivot/v3/filter",
                                     "Alias": "filter"
                                 }
                             ],
@@ -15395,11 +15395,11 @@
                                     "Alias": "fmt"
                                 },
                                 {
-                                    "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                                    "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                                     "Alias": "stringutil"
                                 },
                                 {
-                                    "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                                    "PackageName": "github.com/PerformLine/pivot/v3/filter",
                                     "Alias": "filter"
                                 }
                             ],
@@ -15423,7 +15423,7 @@
                                     "Alias": "json"
                                 },
                                 {
-                                    "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                                    "PackageName": "github.com/PerformLine/pivot/v3/filter",
                                     "Alias": "filter"
                                 },
                                 {
@@ -15471,31 +15471,31 @@
                                     "Alias": "time"
                                 },
                                 {
-                                    "PackageName": "github.com/ghetzel/go-stockutil/maputil",
+                                    "PackageName": "github.com/PerformLine/go-stockutil/maputil",
                                     "Alias": "maputil"
                                 },
                                 {
-                                    "PackageName": "github.com/ghetzel/go-stockutil/rxutil",
+                                    "PackageName": "github.com/PerformLine/go-stockutil/rxutil",
                                     "Alias": "rxutil"
                                 },
                                 {
-                                    "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                                    "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                                     "Alias": "sliceutil"
                                 },
                                 {
-                                    "PackageName": "github.com/ghetzel/go-stockutil/stringutil",
+                                    "PackageName": "github.com/PerformLine/go-stockutil/stringutil",
                                     "Alias": "stringutil"
                                 },
                                 {
-                                    "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                                    "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                                     "Alias": "typeutil"
                                 },
                                 {
-                                    "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                                    "PackageName": "github.com/PerformLine/pivot/v3/dal",
                                     "Alias": "dal"
                                 },
                                 {
-                                    "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                                    "PackageName": "github.com/PerformLine/pivot/v3/filter",
                                     "Alias": "filter"
                                 }
                             ],
@@ -15531,15 +15531,15 @@
                                     "Alias": "time"
                                 },
                                 {
-                                    "PackageName": "github.com/ghetzel/go-stockutil/maputil",
+                                    "PackageName": "github.com/PerformLine/go-stockutil/maputil",
                                     "Alias": "maputil"
                                 },
                                 {
-                                    "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                                    "PackageName": "github.com/PerformLine/pivot/v3/dal",
                                     "Alias": "dal"
                                 },
                                 {
-                                    "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                                    "PackageName": "github.com/PerformLine/pivot/v3/filter",
                                     "Alias": "filter"
                                 },
                                 {
@@ -16877,10 +16877,10 @@
         },
         {
             "Name": "mapper",
-            "CanonicalImportPath": "github.com/ghetzel/pivot/mapper",
+            "CanonicalImportPath": "github.com/PerformLine/pivot/mapper",
             "ImportPath": "mapper",
             "ParentPackage": "pivot",
-            "URL": "https://github.com/ghetzel/pivot",
+            "URL": "https://github.com/PerformLine/pivot",
             "Synopsis": "",
             "MainFunction": false,
             "CommentWordCount": 177,
@@ -16916,27 +16916,27 @@
                             "Alias": "sort"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/log",
+                            "PackageName": "github.com/PerformLine/go-stockutil/log",
                             "Alias": "log"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/sliceutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/sliceutil",
                             "Alias": "sliceutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/go-stockutil/typeutil",
+                            "PackageName": "github.com/PerformLine/go-stockutil/typeutil",
                             "Alias": "typeutil"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/backends",
+                            "PackageName": "github.com/PerformLine/pivot/v3/backends",
                             "Alias": "backends"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/dal",
+                            "PackageName": "github.com/PerformLine/pivot/v3/dal",
                             "Alias": "dal"
                         },
                         {
-                            "PackageName": "github.com/ghetzel/pivot/v3/filter",
+                            "PackageName": "github.com/PerformLine/pivot/v3/filter",
                             "Alias": "filter"
                         }
                     ],
@@ -17478,10 +17478,10 @@
         },
         {
             "Name": "util",
-            "CanonicalImportPath": "github.com/ghetzel/pivot/util",
+            "CanonicalImportPath": "github.com/PerformLine/pivot/util",
             "ImportPath": "util",
             "ParentPackage": "pivot",
-            "URL": "https://github.com/ghetzel/pivot",
+            "URL": "https://github.com/PerformLine/pivot",
             "Synopsis": "",
             "MainFunction": false,
             "CommentWordCount": 0,
