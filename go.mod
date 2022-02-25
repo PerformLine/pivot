@@ -3,7 +3,7 @@ module github.com/PerformLine/pivot/v3
 go 1.17
 
 require (
-	github.com/PerformLine/diecast v1.21.22
+	github.com/PerformLine/diecast v1.21.23
 	github.com/PerformLine/go-stockutil v1.9.3
 	github.com/alexcesaro/statsd v2.0.0+incompatible
 	github.com/aws/aws-sdk-go v1.43.4
@@ -40,7 +40,7 @@ require (
 	github.com/Nvveen/Gotty v0.0.0-20120604004816-cd527374f1e5 // indirect
 	github.com/PerformLine/argonaut v0.2.3 // indirect
 	github.com/PerformLine/friendscript v1.8.0 // indirect
-	github.com/PerformLine/go-webfriend v1.9.65 // indirect
+	github.com/PerformLine/go-webfriend v1.9.66 // indirect
 	github.com/PerformLine/ratelimit v1.1.1 // indirect
 	github.com/PuerkitoBio/goquery v1.8.0 // indirect
 	github.com/RoaringBitmap/roaring v0.4.23 // indirect
