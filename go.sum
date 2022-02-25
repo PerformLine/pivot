@@ -64,8 +64,8 @@ github.com/PerformLine/argonaut v0.2.3 h1:T43yWO+KCr4HgZCHeymfAm67p7RugfQjYGvXJv
 github.com/PerformLine/argonaut v0.2.3/go.mod h1:MFM+/+6v08FQAUELY2WQq4kFyUYwVLyWUlybS2lcg5A=
 github.com/PerformLine/diecast v1.21.21/go.mod h1:uUIi5NxncKBPppT31XJXTfr5lmMaYzP60z+ZZu4Zth8=
 github.com/PerformLine/diecast v1.21.22-0.20220222175117-b37e9aeba562/go.mod h1:uR0uxSO8Bu9IWnh5ZwG1fDyX3kvOvpt3wiyFyo6478s=
-github.com/PerformLine/diecast v1.21.22 h1:+zIqnLaYJdrE2zvZknErmsWSIZtEgg8oqeZYRMqYO4Q=
-github.com/PerformLine/diecast v1.21.22/go.mod h1:p7t0YOHZPI+T15kQI4uEg4UFb67yyXT/IcAF3lXLfH0=
+github.com/PerformLine/diecast v1.21.23 h1:8PZoICN5967aAPxZ4COcNhD2EVbPy9/Pg7zUixgM6nQ=
+github.com/PerformLine/diecast v1.21.23/go.mod h1:3Hr6y/LkwYfXIVEBDt4uQqaDsUWlr9iR8BOtfsROvRo=
 github.com/PerformLine/friendscript v1.6.7/go.mod h1:LL33L4gru8kmL+PN9XzcERTzhPlFx2RhvxCOAZ8w3Ek=
 github.com/PerformLine/friendscript v1.8.0 h1:b61QLo+8vNWbNdQb7XGH0MzeMP2A0pCFdSNPb3w1xN4=
 github.com/PerformLine/friendscript v1.8.0/go.mod h1:i75KCIJRTjCRTOrGDXRLgMd9m3xB4z9nnpbF1EvT9u8=
@@ -73,8 +73,8 @@ github.com/PerformLine/go-stockutil v1.9.2/go.mod h1:jyShWnJwYLETUL/+5nA1L9j93td
 github.com/PerformLine/go-stockutil v1.9.3 h1:6Mty9/Zuy4LKtqn4qDJSfjnYEGsjNpIdTgqb4tHDNfI=
 github.com/PerformLine/go-stockutil v1.9.3/go.mod h1:4/8PF9Dp9BKke9UuDczslbKnZS0mj5dBLvJVNxEJvPw=
 github.com/PerformLine/go-webfriend v1.9.64/go.mod h1:DIB+nSdu61zUtfyFiMvAt+nf531vaF6S4x52lSJj11E=
-github.com/PerformLine/go-webfriend v1.9.65 h1:YILlCXzARW/DJjwbeZpoN9ANKfpHn0znComwVK/TfQw=
-github.com/PerformLine/go-webfriend v1.9.65/go.mod h1:OxEwJKO7Q9aP+jUj4gF8VhG6TtetpRWdqXPWk8+Bxzo=
+github.com/PerformLine/go-webfriend v1.9.66 h1:Uv3MUvJVndq4pjkneHgPdjMZp82P0o3CK1EkVoRLyg4=
+github.com/PerformLine/go-webfriend v1.9.66/go.mod h1:1T0qcA/HDmQdy4J7tvg4LUqxieZtbrQT+HY2KxZ7QYM=
 github.com/PerformLine/ratelimit v1.1.0/go.mod h1:w3HK1Qx+CUHFeQp7S+F42hLKSGhBZCotcE93ce8EYgE=
 github.com/PerformLine/ratelimit v1.1.1 h1:K3K1lbvBaBIhI8O3l8nLvaVuAxMts2pMMOhuVnXRsFM=
 github.com/PerformLine/ratelimit v1.1.1/go.mod h1:KpeWQ5X9x7J5r+g8AoMRNQrJ5P0XU8mkfEVNb50/TsU=
