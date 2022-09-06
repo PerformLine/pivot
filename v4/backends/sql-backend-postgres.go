@@ -11,7 +11,9 @@ import (
 	"github.com/PerformLine/pivot/v4/dal"
 	"github.com/PerformLine/pivot/v4/filter"
 	"github.com/PerformLine/pivot/v4/filter/generators"
-	_ "github.com/lib/pq"
+
+	// This package allows us to integrate New Relic with Postgres
+	_ "github.com/newrelic/go-agent/v3/integrations/nrpq"
 )
 
 func preinitializePostgres(self *SqlBackend) {

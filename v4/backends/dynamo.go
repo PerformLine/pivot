@@ -22,6 +22,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
+	"github.com/newrelic/go-agent/v3/integrations/nrawssdk-v1"
 )
 
 var DefaultAmazonRegion = `us-east-1`
@@ -123,8 +124,11 @@ func (self *DynamoBackend) Initialize() error {
 		logLevel = aws.LogDebugWithHTTPBody
 	}
 
+	session := session.New()
+	nrawssdk.InstrumentHandlers(&session.Handlers)
+
 	self.db = dynamodb.New(
-		session.New(),
+		session,
 		&aws.Config{
 			Region:      aws.String(self.region),
 			Credentials: credentials.NewChainCredentials(providers),

@@ -11,8 +11,9 @@ require (
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/jbenet/go-base58 v0.0.0-20150317085156-6237cf65f3a6
 	github.com/jdxcode/netrc v0.0.0-20210204082910-926c7f70242a
-	github.com/lib/pq v1.10.4
 	github.com/mattn/go-sqlite3 v1.14.11
+	github.com/newrelic/go-agent/v3/integrations/nrawssdk-v1 v1.1.0
+	github.com/newrelic/go-agent/v3/integrations/nrpq v1.1.1
 	github.com/stretchr/testify v1.7.0
 )
 
@@ -29,11 +30,13 @@ require (
 	github.com/juliangruber/go-intersect v1.1.0 // indirect
 	github.com/kr/fs v0.1.0 // indirect
 	github.com/kr/text v0.2.0 // indirect
+	github.com/lib/pq v1.10.4 // indirect
 	github.com/martinlindhe/unit v0.0.0-20210313160520-19b60e03648d // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
 	github.com/mitchellh/mapstructure v1.4.3 // indirect
+	github.com/newrelic/go-agent/v3 v3.3.0 // indirect
 	github.com/op/go-logging v0.0.0-20160315200505-970db520ece7 // indirect
 	github.com/pkg/sftp v1.13.4 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
