@@ -1,0 +1,205 @@
+---
+bindings:
+-   name:     results
+    resource: '/api/collections/{{ qs `id` }}/where/{{ or (qs `q`) `all` }}'
+    params:
+        limit:  '{{ qs `limit` `25` }}'
+        offset: '{{ qs `offset` `0` }}'
+        sort:   '{{ qs `sort` `` }}'
+        fields: '{{ qs `fields` `` }}'
+        noexpand: true
+
+-   name:     schema
+    resource: '/api/schema/{{ qs `id` }}'
+
+includes:
+    paginator: '/_includes/paginator.html'
+---
+<div class="container-fluid">
+    <nav class="nav browser-header">
+        <div class="navbar-brand w-50 m-0">{{ qs `id` }}</div class="nav-brand">
+        <div class="navbar-text w-50 m-0 text-right">
+            <a class="btn btn-success" href="/editor?collection={{ qs `id` }}">
+                <i class="fa fa-plus"></i>
+                New Record
+            </a>
+        </div>
+
+        <form class="w-100" action="/">
+            <input type="hidden" name="collection" value="{{ qs `id` }}">
+
+            <div class="form-group row">
+                <div class="col-6">
+                    <div class="input-group">
+                        <input class="form-control" type="text" name="field" placeholder="field">
+
+                        <select class="form-control" name="operator">
+                            <option value="is" selected>exactly (is)</option>
+                            <option value="not">not exactly (not)</option>
+                            <option value="contains">contains</option>
+                            <option value="prefix">starts with (prefix)</option>
+                            <option value="suffix">ends with (suffix)</option>
+                            <option value="like">like</option>
+                            <option value="unlike">not like (unlike)</option>
+                            <option value="lt">less than (lt)</option>
+                            <option value="lte">less than or equal to (lte)</option>
+                            <option value="gt">greater than (gt)</option>
+                            <option value="gte">greater than or equal to (gte)</option>
+                        </select>
+
+                        <input class="form-control" type="text" name="value" placeholder="value">
+
+                        <div class="input-group-btn">
+                            <button
+                                type="button"
+                                name="add"
+                                class="btn btn-success"
+                                onclick="pivot.appendCriterion()"
+                            >
+                                <i class="fa fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <input class="form-control" type="hidden" name="q" value="{{ qs `q` }}">
+                    <div class="form-control filter-criteria"></div>
+                    <script>
+                    $(function(){
+                        pivot.formatQueryField();
+                    });
+                    </script>
+                </div>
+            </div>
+        </form>
+    </nav>
+
+    <div class="browser-view">
+        <h6 class="mb-4">
+            {{ if gt (asInt $.bindings.results.total_pages) 1 }}
+            Viewing
+            {{ add 1 (qs `offset`) }}&ndash;{{ add (qs `offset`) (len $.bindings.results.records) }}
+            of
+            {{ end }}
+            {{ thousandify $.bindings.results.result_count }} results
+
+            {{ if qs `q` }}
+            {{ if $.bindings.results.result_count }}
+            (<a onclick="$(function(){
+                var query = '{{ qs `q` }}';
+
+                if (query && query.length) {
+                    if (confirm('Are you sure you want to delete these {{ thousandify $.bindings.results.result_count }} records from this collection?') === true) {
+                        $.ajax({
+                            url: '/api/collections/{{ qs `id` }}/where/{{ qs `q` }}',
+                            method: 'delete',
+                            success: function() {
+                                window.location.reload();
+                            },
+                            error: function(data) {
+                                alert('An error occurred while deleting the records: ' + data.responseText);
+                            },
+                        });
+                    }
+                }
+            })" href="#" class="text-danger">delete results</a>)
+            {{ end }}
+            {{ end }}
+        </h6>
+        {{ template "paginator" . }}
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fields</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+            {{ range $index, $record := $.bindings.results.records }}
+                <tr>
+                    <td>
+                        <a href="/editor?collection={{ qs `id` }}&record={{ $record.id }}">
+                            {{ $record.id }}
+                        </a>
+
+                        <a class="float-right" href="/api/collections/{{ qs `id` }}/records/{{ $record.id }}">
+                            <i class="fa fa-external-link"></i> API
+                        </a>
+                    </td>
+                    <td style="padding: 0">
+                        <table class="table table-sm table-plain table-responsive">
+                            <tbody>
+                            {{ range $k, $v := $record.fields }}
+                            {{   $embed := firstByKey $.bindings.schema.embed "key" $k }}
+                            {{   $constraint := firstByKey $.bindings.schema.constraints "on" $k }}
+                            <tr class="elide">
+                                <th>{{ $k }}</th>
+                                <td id="q_{{ $index }}_{{ $k }}">
+                                {{ if or (isMap $v) (isArray $v) }}
+                                    <script type="text/javascript">
+                                        $(function(){
+                                            var data = JSON.parse({{ jsonify $v }});
+
+                                            $('#q_{{ $index }}_{{ $k }}').jsonViewer(data, {
+                                                collapsed: false,
+                                            });
+                                        });
+                                    </script>
+                                {{ else if surroundedBy $v "{" "}" }}
+                                    <script type="text/javascript">
+                                        $(function(){
+                                            var data = JSON.parse({{ $v }});
+
+                                            $('#q_{{ $index }}_{{ $k }}').jsonViewer(data, {
+                                                collapsed: false,
+                                            });
+                                        });
+                                    </script>
+                                {{ else }}
+                                    {{ if $embed.collection }}
+                                    <pre class="m-0"><a href="/?collection={{ $embed.collection }}&q=id%2Fis%3A{{ $v }}">{{ $v }}</a></pre>
+                                    {{ else if $constraint.collection }}
+                                    <pre class="m-0"><a href="/?collection={{ $constraint.collection }}&q={{ or $constraint.field `id` }}%2Fis%3A{{ $v }}">{{ $v }}</a></pre>
+                                    {{ else }}
+                                    <pre class="m-0">{{ $v }}</pre>
+                                    {{ end }}
+                                {{ end }}
+                                </td>
+                            </tr>
+                            {{ end }}
+                            </tbody>
+                        </table>
+                    </td>
+                    <td>
+                        <a href="/editor?collection={{ qs `id` }}&record={{ $record.id }}">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+
+                        <a href="#" onclick="
+                            if(confirm('Are you sure you want to delete the record {{ $record.id }}?') === true) {
+                                $.ajax({
+                                    url: '/api/collections/{{ qs `id` }}/records/{{ $record.id }}',
+                                    method: 'delete',
+                                    success: function() {
+                                        window.location.reload();
+                                    },
+                                    error: function(data) {
+                                        alert('An error occurred while deleting the record: ' + data.responseText);
+                                    },
+                                });
+                            }
+                        ">
+                            <i class="fa fa-remove"></i>
+                        </a>
+                    </td>
+                </tr>
+            {{ end }}
+            </tbody>
+        </table>
+
+        {{ template "paginator" . }}
+    </div>
+</div>

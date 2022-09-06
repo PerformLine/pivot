@@ -1,0 +1,287 @@
+---
+bindings:
+-   name:     schema
+    resource: '/api/schema/{{ qs `collection` }}'
+
+-   name:     record
+    resource: '/api/collections/{{ qs `collection` }}/records/{{ qs `record` }}'
+    optional: true
+    params:
+        limit: 1
+        noexpand: true
+    fallback: {}
+---
+{{ if (qs "raw" ``) }}
+<div class="editor-placeholder">
+    <div id="editor"></div>
+</div>
+
+<div class="editor-footer text-right pt-4 pb-4">
+    <button
+        type="submit"
+        class="btn btn-primary mr-2"
+        onclick="$.ajax({
+            method:  'post',
+            url:     '/api/collections/{{ qs `collection` }}/records/',
+            data:    cm.getValue(),
+            success: function(){
+                console.log('YAY')
+            },
+        })"
+    >Save &amp; Continue Editing</button>
+
+    <button
+        type="submit"
+        class="btn btn-primary mr-2"
+        onclick="$.ajax({
+            method:  'post',
+            url:     '/api/collections/{{ qs `collection` }}/records/',
+            data:    cm.getValue(),
+            success: function(){
+                console.log('YAY')
+            },
+        })"
+    >Save</button>
+</div>
+
+<script>
+    $(function(){
+        window.cm = CodeMirror(document.getElementById('editor'), {
+            mode: {
+                name:       'javascript',
+                globalVars: true,
+            },
+            theme:             'monokai',
+            autoCloseBrackets: true,
+            matchBrackets:     true,
+            indentUnit:        4,
+            indentWithTabs:    false,
+            tabSize:           4,
+            lineNumbers:       true,
+            autofocus:         true,
+            styleActiveLine:   true,
+            styleSelectedText: true,
+            viewportMargin:    Infinity,
+        });
+
+        var autosize = function() {
+            var body = $('.editor-placeholder');
+            cm.setSize(null, $(window).height() - body.offset().top - $('.editor-footer').outerHeight());
+        }
+
+        $(window).on('resize', autosize);
+
+        autosize();
+        window.cm.setValue('{{ jsonify $.bindings.record }}');
+    });
+</script>
+{{ else }}
+<form
+    id="editor"
+    class="container"
+    method="POST"
+    action="/api/collections/{{ qs `collection` }}/records?update={{ if $.bindings.record.id }}true{{ else }}false{{ end }}&redirect=/?collection={{ qs `collection` }}{{ if $.bindings.record.id }}%26q=id/is:{{ $.bindings.record.id }}{{ end }}"
+>
+    <h2>Editing {{ $.bindings.schema.name }} {{ if $.bindings.record.id }}{{ $.bindings.record.id }}{{ end }}</h2>
+
+    {{ if $.bindings.record.id }}
+    <input type="hidden" name="records.0.id" value="{{ $.bindings.record.id }}">
+    {{ end }}
+
+    {{ range $i, $field := $.bindings.schema.fields }}
+    {{   if eqx $field.name `id` }}
+    {{     var `value` $.bindings.record.id }}
+    {{   else }}
+    {{     var `value` (get $.bindings.record.fields $field.name) }}
+    {{   end }}
+    <div class="form-group row">
+        <label
+            for="records.0.fields.{{ $field.name }}"
+            class="
+                col-sm-4
+                col-form-label
+                {{ if $field.identity }} text-danger{{ end }}
+                {{ if $field.required }} font-weight-bold{{ end }}
+            "
+        >
+            {{ $field.name }}
+            <small class="form-help float-right">
+                <i>{{ titleize (switch $field.type $field.type "str" "string" "bool" "boolean") }}</i>
+            </small>
+        </label>
+        <div class="col-sm-8" id="field_{{ $field.name }}">
+            {{ if eqx $field.type `bool` }}
+            <select
+                id="{{ underscore $field.name }}"
+                {{ if not $i }}autofocus{{ end }}
+                name="records.0.fields.{{ $field.name }}"
+                class="form-control form-control-sm"
+                {{ if $field.required }}required{{ end }}
+                {{ if or $field.not_user_editable (and $field.identity $.vars.value) }}readonly{{ end }}
+            >
+                <option value="true"{{ if $.vars.value }} selected{{ end }}>True</option>
+                <option value="false"{{ if not $.vars.value }} selected{{ end }}>False</option>
+            </select>
+            {{ else if any $field.type `int` `float` }}
+            <input
+                id="{{ underscore $field.name }}"
+                {{ if not $i }}autofocus{{ end }}
+                class="form-control form-control-sm"
+                type="number"
+                name="records.0.fields.{{ $field.name }}"
+                value="{{ $.vars.value }}"
+                {{ if eqx $field.type `float` }}
+                step="any"
+                {{ end }}
+                {{ if $field.required }}required{{ end }}
+                {{ if or $field.not_user_editable (and $field.identity $.vars.value) }}readonly{{ end }}
+            ></input>
+            {{ else if and (any $field.type `object` `array` `raw`) (or (isZero $.vars.value) (isMap $.vars.value) (isArray $.vars.value)) }}
+
+            <fieldset class="form-group bg-light border rounded p-3" id="{{ underscore $field.name }}">
+            {{  if $.vars.value }}
+            {{      range $i, $v := coalesce $.vars.value "." }}
+                <div class="form-row mb-1" id="field_{{ underscore $field.name }}_{{ replace $i `.` `_` -1 }}">
+                    <div class="col">
+                        <input
+                            class="form-control"
+                            disabled
+                            value="{{ $i }}"
+                            {{ if any $field.type `array` `raw` }}
+                            type="number"
+                            min="0"
+                            {{ else }}
+                            type="text"
+                            {{ end }}
+                        >
+                    </div>
+                    <div class="col">
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="(value)"
+                            name="records.0.fields.{{ $field.name }}.{{ $i }}"
+                            value="{{ $v }}"
+                        >
+                    </div>
+
+                    <div class="col-1">
+                        <a
+                            class="btn btn-default text-danger"
+                            onclick="$('#field_{{ underscore $field.name }}_{{ replace $i `.` `_` -1 }}').remove()"
+                        >
+                            <i class="fa fa-remove"></i>
+                        </a>
+                    </div>
+                </div>
+            {{      end }}
+            {{  end }}
+
+            </fieldset>
+
+            <button
+                class="btn btn-sm btn-success"
+                onclick="$(function(){
+                    var fs = $('#{{ underscore $field.name }}');
+                    var index = fs.children().length;
+                    var id = 'field_{{ underscore $field.name }}_' + index;
+
+                    var row = $('<div></div>')
+                        .addClass('form-row mb-1')
+                        .attr('id', id);
+
+                    var c1 = $('<div></div>')
+                        .addClass('col')
+                        .append(
+                            $('<input></input>')
+                                .addClass('form-control pivot-key')
+                                .attr('onchange', '$(\'#'+id+' .pivot-value\').attr(\'name\', \'records.0.fields.{{ $field.name }}.\' + $(this).val())')
+                                {{ if any $field.type `array` `raw` }}
+                                .attr('type', 'number')
+                                .attr('min',  '0')
+                                .attr('value', index)
+                                {{ else }}
+                                .attr('type', 'text')
+                                {{ end }}
+                        );
+
+                    var c2 = $('<div></div>')
+                        .addClass('col')
+                        .append(
+                            $('<input></input>')
+                                .addClass('form-control pivot-value')
+                                .attr('type', 'text')
+                                .attr('placeholder', '(value)')
+                                .attr('name', 'records.0.fields.{{ $field.name }}.' + index)
+
+                        );
+
+                    var c3 = $('<div></div>')
+                        .addClass('col-1')
+                        .append(
+                            $('<a></a>')
+                                .addClass('btn btn-default text-danger')
+                                .attr('onclick', '$(\'#field_{{ underscore $field.name }}_' + index +  '\').remove()')
+                                .append(
+                                    $('<i></i>').addClass('fa fa-remove')
+                                )
+                        );
+
+                    row.append(c1);
+                    row.append(c2);
+                    row.append(c3);
+                    fs.append(row);
+                }); return false;"
+            >
+                <i class="fa fa-plus"></i>
+                Add Item
+            </button>
+            {{ else if eqx $field.type "date" }}
+            <input
+                id="{{ underscore $field.name }}"
+                {{ if not $i }}autofocus{{ end }}
+                class="form-control form-control-sm"
+                type="datetime-local"
+                name="records.0.fields.{{ $field.name }}"
+                {{ if $.vars.value }}
+                value="{{ time $.vars.value `rfc3339` }}"
+                {{ end }}
+                {{ if $field.required }}required{{ end }}
+                {{ if or $field.not_user_editable (and $field.identity $.vars.value) }}readonly{{ end }}
+            ></input>
+            <div class="form-help">
+                <small>
+                    Specify date/time values in RFC 3339 format; e.g.: <code>YYYY-mm-ddTHH:MM:SS+ZZ:ZZ</code>
+                </small>
+            </div>
+            {{ else }}
+            <input
+                id="{{ underscore $field.name }}"
+                {{ if not $i }}autofocus{{ end }}
+                class="form-control form-control-sm"
+                type="text"
+                name="records.0.fields.{{ $field.name }}"
+                value="{{ $.vars.value }}"
+                {{ if $field.required }}required{{ end }}
+                {{ if or $field.not_user_editable (and $field.identity $.vars.value) }}readonly{{ end }}
+            ></input>
+            {{ end }}
+
+            {{ if $field.description }}
+            <small class="text-muted">{{ $field.description }}</small>
+            {{ end }}
+        </div>
+    </div>
+    {{ end }}
+
+    <div class="form-group row d-flex justify-content-between">
+        <a class="btn btn-lg btn-danger" href="/?collection={{ qs `collection` }}">
+            Cancel
+        </a>
+
+        <button type="submit" class="btn btn-lg btn-primary">
+            {{ if $.bindings.record.id }}Update{{ else }}Create{{ end }} Record
+        </button>
+    </div>
+</form>
+{{ end }}
