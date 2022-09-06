@@ -1,6 +1,7 @@
 package pivot
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/PerformLine/pivot/v4/backends"
@@ -12,7 +13,7 @@ type DB interface {
 	backends.Backend
 	AttachCollection(*Collection) Model
 	C(string) *Collection
-	Migrate() error
+	Migrate(context.Context) error
 	Models() []Model
 	ApplySchemata(fileOrDirPath string) error
 	LoadFixtures(fileOrDirPath string) error
@@ -82,9 +83,9 @@ func (self *db) AttachCollection(collection *Collection) Model {
 	return sm.Model
 }
 
-func (self *db) Migrate() error {
+func (self *db) Migrate(ctx context.Context) error {
 	for _, sm := range self.models {
-		if err := sm.Model.Migrate(); err != nil {
+		if err := sm.Model.Migrate(ctx); err != nil {
 			return fmt.Errorf("failed to migrate %v: %v", sm, err)
 		}
 	}

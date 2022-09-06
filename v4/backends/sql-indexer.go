@@ -3,6 +3,7 @@ package backends
 // this file satifies the Indexer interface for SqlBackend
 
 import (
+	"context"
 	"math"
 	"reflect"
 
@@ -12,7 +13,7 @@ import (
 	"github.com/PerformLine/pivot/v4/filter/generators"
 )
 
-func (self *SqlBackend) QueryFunc(collection *dal.Collection, f *filter.Filter, resultFn IndexResultFunc) error {
+func (self *SqlBackend) QueryFunc(ctx context.Context, collection *dal.Collection, f *filter.Filter, resultFn IndexResultFunc) error {
 	defer stats.NewTiming().Send(`pivot.backends.sql.query_time`)
 
 	f.IdentityField = collection.IdentityField
@@ -50,7 +51,7 @@ func (self *SqlBackend) QueryFunc(collection *dal.Collection, f *filter.Filter, 
 						querylog.Debugf("[%v] %s %v", self, string(stmt[:]), values)
 
 						// perform the count query
-						if rows, err := self.db.Query(string(stmt[:]), values...); err == nil {
+						if rows, err := self.db.QueryContext(ctx, string(stmt[:]), values...); err == nil {
 							defer rows.Close()
 
 							if rows.Next() {
@@ -83,7 +84,7 @@ func (self *SqlBackend) QueryFunc(collection *dal.Collection, f *filter.Filter, 
 				querylog.Debugf("[%v] %s %v", self, string(stmt[:]), values)
 
 				// perform query
-				if rows, err := self.db.Query(string(stmt[:]), values...); err == nil {
+				if rows, err := self.db.QueryContext(ctx, string(stmt[:]), values...); err == nil {
 					defer rows.Close()
 
 					if columns, err := rows.Columns(); err == nil {
@@ -151,20 +152,16 @@ func (self *SqlBackend) QueryFunc(collection *dal.Collection, f *filter.Filter, 
 	}
 }
 
-func (self *SqlBackend) Query(collection *dal.Collection, f *filter.Filter, resultFns ...IndexResultFunc) (*dal.RecordSet, error) {
+func (self *SqlBackend) Query(ctx context.Context, collection *dal.Collection, f *filter.Filter, resultFns ...IndexResultFunc) (*dal.RecordSet, error) {
 	if f != nil {
-		if f.IdentityField == `` {
-			f.IdentityField = MongoIdentityField
-		}
-
 		// use the record that comes back from the QueryFunc as-is
 		f.Options[`ForceIndexRecord`] = true
 	}
 
-	return DefaultQueryImplementation(self, collection, f, resultFns...)
+	return DefaultQueryImplementation(ctx, self, collection, f, resultFns...)
 }
 
-func (self *SqlBackend) ListValues(collection *dal.Collection, fields []string, f *filter.Filter) (map[string][]interface{}, error) {
+func (self *SqlBackend) ListValues(ctx context.Context, collection *dal.Collection, fields []string, f *filter.Filter) (map[string][]interface{}, error) {
 	for i, f := range fields {
 		if f == `id` {
 			fields[i] = collection.IdentityField
@@ -178,7 +175,7 @@ func (self *SqlBackend) ListValues(collection *dal.Collection, fields []string, 
 		f.Options[`Distinct`] = true
 		f.Options[`ForceIndexRecord`] = true
 
-		if results, err := self.Query(collection, f); err == nil {
+		if results, err := self.Query(ctx, collection, f); err == nil {
 			// querylog.Debugf("sql-ListValues(): %+v", results)
 
 			var values []interface{}
@@ -218,26 +215,26 @@ func (self *SqlBackend) GetBackend() Backend {
 	return self
 }
 
-func (self *SqlBackend) IndexExists(collection *dal.Collection, id interface{}) bool {
-	return self.Exists(collection.GetIndexName(), id)
+func (self *SqlBackend) IndexExists(ctx context.Context, collection *dal.Collection, id interface{}) bool {
+	return self.Exists(ctx, collection.GetIndexName(), id)
 }
 
-func (self *SqlBackend) IndexRetrieve(collection *dal.Collection, id interface{}) (*dal.Record, error) {
-	return self.Retrieve(collection.GetIndexName(), id)
+func (self *SqlBackend) IndexRetrieve(ctx context.Context, collection *dal.Collection, id interface{}) (*dal.Record, error) {
+	return self.Retrieve(ctx, collection.GetIndexName(), id)
 }
 
 // Index is a no-op, this should be handled by SqlBackend's Insert() function
-func (self *SqlBackend) Index(collection *dal.Collection, records *dal.RecordSet) error {
+func (self *SqlBackend) Index(ctx context.Context, collection *dal.Collection, records *dal.RecordSet) error {
 	return nil
 }
 
 // IndexRemove is a no-op, this should be handled by SqlBackend's Delete() function
-func (self *SqlBackend) IndexRemove(collection *dal.Collection, ids []interface{}) error {
+func (self *SqlBackend) IndexRemove(ctx context.Context, collection *dal.Collection, ids []interface{}) error {
 	return nil
 }
 
 // DeleteQuery removes records using a filter
-func (self *SqlBackend) DeleteQuery(collection *dal.Collection, f *filter.Filter) error {
+func (self *SqlBackend) DeleteQuery(ctx context.Context, collection *dal.Collection, f *filter.Filter) error {
 	if tx, err := self.db.Begin(); err == nil {
 		queryGen := self.makeQueryGen(collection)
 		queryGen.Type = generators.SqlDeleteStatement
@@ -247,7 +244,7 @@ func (self *SqlBackend) DeleteQuery(collection *dal.Collection, f *filter.Filter
 			querylog.Debugf("[%v] %s %v", self, string(stmt[:]), queryGen.GetValues())
 
 			// execute SQL
-			if _, err := tx.Exec(string(stmt[:]), queryGen.GetValues()...); err == nil {
+			if _, err := tx.ExecContext(ctx, string(stmt[:]), queryGen.GetValues()...); err == nil {
 				if err := tx.Commit(); err == nil {
 					return nil
 				} else {

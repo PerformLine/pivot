@@ -1,13 +1,14 @@
 package backends
 
 import (
+	"context"
 	"fmt"
 	"time"
 
-	"github.com/alexcesaro/statsd"
 	"github.com/PerformLine/go-stockutil/log"
 	"github.com/PerformLine/pivot/v4/dal"
 	"github.com/PerformLine/pivot/v4/filter"
+	"github.com/alexcesaro/statsd"
 )
 
 var querylog = log.Logger()
@@ -28,19 +29,19 @@ type Backend interface {
 	SetIndexer(dal.ConnectionString) error
 	RegisterCollection(*dal.Collection)
 	GetConnectionString() *dal.ConnectionString
-	Exists(collection string, id interface{}) bool
-	Retrieve(collection string, id interface{}, fields ...string) (*dal.Record, error)
-	Insert(collection string, records *dal.RecordSet) error
-	Update(collection string, records *dal.RecordSet, target ...string) error
-	Delete(collection string, ids ...interface{}) error
-	CreateCollection(definition *dal.Collection) error
-	DeleteCollection(collection string) error
+	Exists(ctx context.Context, collection string, id interface{}) bool
+	Retrieve(ctx context.Context, collection string, id interface{}, fields ...string) (*dal.Record, error)
+	Insert(ctx context.Context, collection string, records *dal.RecordSet) error
+	Update(ctx context.Context, collection string, records *dal.RecordSet, target ...string) error
+	Delete(ctx context.Context, collection string, ids ...interface{}) error
+	CreateCollection(ctx context.Context, definition *dal.Collection) error
+	DeleteCollection(ctx context.Context, collection string) error
 	ListCollections() ([]string, error)
 	GetCollection(collection string) (*dal.Collection, error)
 	WithSearch(collection *dal.Collection, filters ...*filter.Filter) Indexer
 	WithAggregator(collection *dal.Collection) Aggregator
 	Flush() error
-	Ping(time.Duration) error
+	Ping(context.Context, time.Duration) error
 	String() string
 	Supports(feature ...BackendFeature) bool
 }
@@ -51,16 +52,11 @@ type BackendFunc func(dal.ConnectionString) Backend
 
 var backendMap = map[string]BackendFunc{
 	`dynamodb`:   NewDynamoBackend,
-	`file`:       NewFileBackend,
-	`fs`:         NewFilesystemBackend,
-	`mongodb`:    NewMongoBackend,
-	`mongo`:      NewMongoBackend,
 	`mysql`:      NewSqlBackend,
 	`postgres`:   NewSqlBackend,
 	`postgresql`: NewSqlBackend,
 	`psql`:       NewSqlBackend,
 	`sqlite`:     NewSqlBackend,
-	`redis`:      NewRedisBackend,
 }
 
 // Register a new or replacement backend for the given connection string scheme.
@@ -72,7 +68,7 @@ func RegisterBackend(name string, fn BackendFunc) {
 
 func startPeriodicPinger(interval time.Duration, backend Backend) {
 	for {
-		if err := backend.Ping(AutopingTimeout); err != nil {
+		if err := backend.Ping(context.Background(), AutopingTimeout); err != nil {
 			log.Warningf("%v: ping failed with error: %v", backend, err)
 		}
 

@@ -2,6 +2,7 @@ package backends
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"math"
@@ -207,11 +208,11 @@ func (self *ElasticsearchIndexer) GetBackend() Backend {
 	return self.parent
 }
 
-func (self *ElasticsearchIndexer) IndexRetrieve(collection *dal.Collection, id interface{}) (*dal.Record, error) {
+func (self *ElasticsearchIndexer) IndexRetrieve(ctx context.Context, collection *dal.Collection, id interface{}) (*dal.Record, error) {
 	defer stats.NewTiming().Send(`pivot.indexers.elasticsearch.retrieve_time`)
 
-	if index, err := self.getIndexForCollection(collection); err == nil {
-		if req, err := self.newRequest(`GET`, fmt.Sprintf(
+	if index, err := self.getIndexForCollection(ctx, collection); err == nil {
+		if req, err := self.newRequest(ctx, http.MethodGet, fmt.Sprintf(
 			"/%v/%v/%v",
 			index.Name,
 			ElasticsearchDocumentType,
@@ -240,18 +241,18 @@ func (self *ElasticsearchIndexer) IndexRetrieve(collection *dal.Collection, id i
 	}
 }
 
-func (self *ElasticsearchIndexer) IndexExists(collection *dal.Collection, id interface{}) bool {
-	if _, err := self.IndexRetrieve(collection, id); err == nil {
+func (self *ElasticsearchIndexer) IndexExists(ctx context.Context, collection *dal.Collection, id interface{}) bool {
+	if _, err := self.IndexRetrieve(ctx, collection, id); err == nil {
 		return true
 	}
 
 	return false
 }
 
-func (self *ElasticsearchIndexer) Index(collection *dal.Collection, records *dal.RecordSet) error {
+func (self *ElasticsearchIndexer) Index(ctx context.Context, collection *dal.Collection, records *dal.RecordSet) error {
 	defer stats.NewTiming().Send(`pivot.indexers.elasticsearch.index_time`)
 
-	if index, err := self.getIndexForCollection(collection); err == nil {
+	if index, err := self.getIndexForCollection(ctx, collection); err == nil {
 		for _, record := range records.Records {
 			querylog.Debugf("[%T] Adding %v to batch", self, record)
 
@@ -264,14 +265,14 @@ func (self *ElasticsearchIndexer) Index(collection *dal.Collection, records *dal
 			})
 		}
 
-		self.checkAndFlushBatches(false)
+		self.checkAndFlushBatches(ctx, false)
 		return nil
 	} else {
 		return err
 	}
 }
 
-func (self *ElasticsearchIndexer) checkAndFlushBatches(forceFlush bool) {
+func (self *ElasticsearchIndexer) checkAndFlushBatches(ctx context.Context, forceFlush bool) {
 	if l := len(self.indexDeferredBatch.batch); l > 0 {
 		shouldFlush := false
 
@@ -293,7 +294,7 @@ func (self *ElasticsearchIndexer) checkAndFlushBatches(forceFlush bool) {
 			if bulkBody, err := self.indexDeferredBatch.Flush(); err == nil {
 				querylog.Debugf("[%T] Indexing %d records to %s", self, l)
 
-				if req, err := self.newRequest(`POST`, `/_bulk`, bulkBody); err == nil {
+				if req, err := self.newRequest(ctx, http.MethodPost, `/_bulk`, bulkBody); err == nil {
 					if response, err := self.client.Do(req); err == nil {
 						if response.StatusCode >= 400 {
 							log.Errorf("[%T] error indexing %d records: %v", self, l, response.Status)
@@ -311,14 +312,14 @@ func (self *ElasticsearchIndexer) checkAndFlushBatches(forceFlush bool) {
 	}
 }
 
-func (self *ElasticsearchIndexer) QueryFunc(collection *dal.Collection, f *filter.Filter, resultFn IndexResultFunc) error {
+func (self *ElasticsearchIndexer) QueryFunc(ctx context.Context, collection *dal.Collection, f *filter.Filter, resultFn IndexResultFunc) error {
 	defer stats.NewTiming().Send(`pivot.indexers.elasticsearch.query_time`)
 
 	if f.IdentityField == `` {
 		f.IdentityField = ElasticsearchIdentityField
 	}
 
-	if index, err := self.getIndexForCollection(collection); err == nil {
+	if index, err := self.getIndexForCollection(ctx, collection); err == nil {
 		originalLimit := f.Limit
 		originalOffset := f.Offset
 		useScrollApi := false
@@ -354,14 +355,14 @@ func (self *ElasticsearchIndexer) QueryFunc(collection *dal.Collection, f *filte
 				// build the search request; either the initial Scroll API query, Scroll paging query,
 				// or just a regular old Search API query.
 				if useScrollApi && isFirstScrollRequest {
-					if r, err := self.newRequest(`GET`, fmt.Sprintf("/%s/_search?scroll=1m", index.Name), string(query)); err == nil {
+					if r, err := self.newRequest(ctx, http.MethodGet, fmt.Sprintf("/%s/_search?scroll=1m", index.Name), string(query)); err == nil {
 						req = r
 						isFirstScrollRequest = false
 					} else {
 						return err
 					}
 				} else if useScrollApi {
-					if r, err := self.newRequest(`GET`, `/_search/scroll`, &elasticsearchScrollRequest{
+					if r, err := self.newRequest(ctx, http.MethodGet, `/_search/scroll`, &elasticsearchScrollRequest{
 						ScrollLifetime: `1m`,
 						ScrollId:       lastScrollId,
 					}); err == nil {
@@ -370,7 +371,7 @@ func (self *ElasticsearchIndexer) QueryFunc(collection *dal.Collection, f *filte
 						return err
 					}
 				} else {
-					if r, err := self.newRequest(`GET`, fmt.Sprintf("/%s/_search", index.Name), string(query)); err == nil {
+					if r, err := self.newRequest(ctx, http.MethodGet, fmt.Sprintf("/%s/_search", index.Name), string(query)); err == nil {
 						req = r
 					} else {
 						return err
@@ -459,19 +460,19 @@ func (self *ElasticsearchIndexer) QueryFunc(collection *dal.Collection, f *filte
 	}
 }
 
-func (self *ElasticsearchIndexer) Query(collection *dal.Collection, f *filter.Filter, resultFns ...IndexResultFunc) (*dal.RecordSet, error) {
+func (self *ElasticsearchIndexer) Query(ctx context.Context, collection *dal.Collection, f *filter.Filter, resultFns ...IndexResultFunc) (*dal.RecordSet, error) {
 	if f.IdentityField == `` {
 		f.IdentityField = ElasticsearchIdentityField
 	}
 
-	return DefaultQueryImplementation(self, collection, f, resultFns...)
+	return DefaultQueryImplementation(ctx, self, collection, f, resultFns...)
 }
 
-func (self *ElasticsearchIndexer) IndexRemove(collection *dal.Collection, ids []interface{}) error {
-	if index, err := self.getIndexForCollection(collection); err == nil {
+func (self *ElasticsearchIndexer) IndexRemove(ctx context.Context, collection *dal.Collection, ids []interface{}) error {
+	if index, err := self.getIndexForCollection(ctx, collection); err == nil {
 		for _, id := range ids {
-			if req, err := self.newRequest(
-				`DELETE`,
+			if req, err := self.newRequest(ctx,
+				http.MethodDelete,
 				fmt.Sprintf("/%v/%v/%v", index.Name, ElasticsearchDocumentType, id),
 				nil,
 			); err == nil {
@@ -485,34 +486,34 @@ func (self *ElasticsearchIndexer) IndexRemove(collection *dal.Collection, ids []
 	}
 }
 
-func (self *ElasticsearchIndexer) ListValues(collection *dal.Collection, fields []string, f *filter.Filter) (map[string][]interface{}, error) {
-	if _, err := self.getIndexForCollection(collection); err == nil {
+func (self *ElasticsearchIndexer) ListValues(ctx context.Context, collection *dal.Collection, fields []string, f *filter.Filter) (map[string][]interface{}, error) {
+	if _, err := self.getIndexForCollection(ctx, collection); err == nil {
 		return nil, fmt.Errorf("Not Implemented")
 	} else {
 		return nil, err
 	}
 }
 
-func (self *ElasticsearchIndexer) DeleteQuery(collection *dal.Collection, f *filter.Filter) error {
+func (self *ElasticsearchIndexer) DeleteQuery(ctx context.Context, collection *dal.Collection, f *filter.Filter) error {
 	f.Fields = []string{ElasticsearchIdentityField}
 	var ids []interface{}
 
-	if err := self.QueryFunc(collection, f, func(indexRecord *dal.Record, err error, page IndexPage) error {
+	if err := self.QueryFunc(ctx, collection, f, func(indexRecord *dal.Record, err error, page IndexPage) error {
 		ids = append(ids, indexRecord.ID)
 		return nil
 	}); err == nil {
-		return self.parent.Delete(collection.Name, ids)
+		return self.parent.Delete(ctx, collection.Name, ids)
 	} else {
 		return err
 	}
 }
 
 func (self *ElasticsearchIndexer) FlushIndex() error {
-	self.checkAndFlushBatches(true)
+	self.checkAndFlushBatches(context.Background(), true)
 	return nil
 }
 
-func (self *ElasticsearchIndexer) newRequest(method string, urlpath string, body interface{}) (*http.Request, error) {
+func (self *ElasticsearchIndexer) newRequest(ctx context.Context, method string, urlpath string, body interface{}) (*http.Request, error) {
 	var buf bytes.Buffer
 	var lines []string
 
@@ -536,7 +537,8 @@ func (self *ElasticsearchIndexer) newRequest(method string, urlpath string, body
 	host := self.conn.Host()
 	protocol := sliceutil.Or(self.conn.Protocol(), `http`)
 
-	if req, err := http.NewRequest(
+	if req, err := http.NewRequestWithContext(
+		ctx,
 		method,
 		fmt.Sprintf("%s://%s/%s", protocol, host, strings.Trim(urlpath, `/`)),
 		&buf,
@@ -549,14 +551,14 @@ func (self *ElasticsearchIndexer) newRequest(method string, urlpath string, body
 	}
 }
 
-func (self *ElasticsearchIndexer) getIndexForCollection(collection *dal.Collection) (*elasticsearchIndex, error) {
+func (self *ElasticsearchIndexer) getIndexForCollection(ctx context.Context, collection *dal.Collection) (*elasticsearchIndex, error) {
 	defer stats.NewTiming().Send(`pivot.indexers.elasticsearch.retrieve_index`)
 	name := collection.GetIndexName()
 
 	if v, ok := self.indexCache[name]; ok {
 		return v, nil
 	} else {
-		if req, err := self.newRequest(`GET`, fmt.Sprintf("/%s", name), nil); err == nil {
+		if req, err := self.newRequest(ctx, http.MethodGet, fmt.Sprintf("/%s", name), nil); err == nil {
 			if response, err := self.client.Do(req); err == nil {
 				switch {
 				case response.StatusCode < 400:

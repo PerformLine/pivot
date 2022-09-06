@@ -1,6 +1,7 @@
 package backends
 
 import (
+	"context"
 	"fmt"
 	"math/rand"
 
@@ -128,11 +129,11 @@ func (self *MultiIndex) GetBackend() Backend {
 	return self.backend
 }
 
-func (self *MultiIndex) IndexExists(collection *dal.Collection, id interface{}) bool {
+func (self *MultiIndex) IndexExists(ctx context.Context, collection *dal.Collection, id interface{}) bool {
 	exists := false
 
-	if err := self.EachSelectedIndex(collection, InspectionOperation, func(indexer Indexer, _ int, _ int) error {
-		if !indexer.IndexExists(collection, id) {
+	if err := self.EachSelectedIndex(ctx, collection, InspectionOperation, func(indexer Indexer, _ int, _ int) error {
+		if !indexer.IndexExists(ctx, collection, id) {
 			exists = false
 			querylog.Debugf("MultiIndex: Indexer %T/%v does not exist", indexer, collection.GetIndexName())
 			return IndexerResultsStop
@@ -147,11 +148,11 @@ func (self *MultiIndex) IndexExists(collection *dal.Collection, id interface{}) 
 	return exists
 }
 
-func (self *MultiIndex) IndexRetrieve(collection *dal.Collection, id interface{}) (*dal.Record, error) {
+func (self *MultiIndex) IndexRetrieve(ctx context.Context, collection *dal.Collection, id interface{}) (*dal.Record, error) {
 	var record *dal.Record
 
-	if err := self.EachSelectedIndex(collection, RetrieveOperation, func(indexer Indexer, _ int, _ int) error {
-		if r, err := indexer.IndexRetrieve(collection, id); err == nil {
+	if err := self.EachSelectedIndex(ctx, collection, RetrieveOperation, func(indexer Indexer, _ int, _ int) error {
+		if r, err := indexer.IndexRetrieve(ctx, collection, id); err == nil {
 			record = r
 			return IndexerResultsStop
 		}
@@ -168,11 +169,11 @@ func (self *MultiIndex) IndexRetrieve(collection *dal.Collection, id interface{}
 	return record, nil
 }
 
-func (self *MultiIndex) IndexRemove(collection *dal.Collection, ids []interface{}) error {
+func (self *MultiIndex) IndexRemove(ctx context.Context, collection *dal.Collection, ids []interface{}) error {
 	var indexErr error
 
-	if err := self.EachSelectedIndex(collection, DeleteOperation, func(indexer Indexer, _ int, _ int) error {
-		if err := indexer.IndexRemove(collection, ids); err != nil {
+	if err := self.EachSelectedIndex(ctx, collection, DeleteOperation, func(indexer Indexer, _ int, _ int) error {
+		if err := indexer.IndexRemove(ctx, collection, ids); err != nil {
 			querylog.Debugf("MultiIndex: Failed to remove IDs from %v from indexer %T: %v", collection, indexer, err)
 			indexErr = err
 		}
@@ -185,11 +186,11 @@ func (self *MultiIndex) IndexRemove(collection *dal.Collection, ids []interface{
 	return indexErr
 }
 
-func (self *MultiIndex) Index(collection *dal.Collection, records *dal.RecordSet) error {
+func (self *MultiIndex) Index(ctx context.Context, collection *dal.Collection, records *dal.RecordSet) error {
 	var indexErr error
 
-	if err := self.EachSelectedIndex(collection, PersistOperation, func(indexer Indexer, _ int, _ int) error {
-		if err := indexer.Index(collection, records); err != nil {
+	if err := self.EachSelectedIndex(ctx, collection, PersistOperation, func(indexer Indexer, _ int, _ int) error {
+		if err := indexer.Index(ctx, collection, records); err != nil {
 			querylog.Debugf("MultiIndex: Failed to persist records in indexer %T: %v", indexer, err)
 			indexErr = err
 		}
@@ -202,11 +203,11 @@ func (self *MultiIndex) Index(collection *dal.Collection, records *dal.RecordSet
 	return indexErr
 }
 
-func (self *MultiIndex) QueryFunc(collection *dal.Collection, filter *filter.Filter, resultFn IndexResultFunc) error {
+func (self *MultiIndex) QueryFunc(ctx context.Context, collection *dal.Collection, filter *filter.Filter, resultFn IndexResultFunc) error {
 	var indexErr error
 
-	if err := self.EachSelectedIndex(collection, RetrieveOperation, func(indexer Indexer, _ int, _ int) error {
-		if err := indexer.QueryFunc(collection, filter, resultFn); err == nil {
+	if err := self.EachSelectedIndex(ctx, collection, RetrieveOperation, func(indexer Indexer, _ int, _ int) error {
+		if err := indexer.QueryFunc(ctx, collection, filter, resultFn); err == nil {
 			querylog.Debugf("MultiIndex: Indexer query to %v/%v: %v", indexer, collection, filter)
 
 			if self.RetrievalStrategy.IsCompoundable() {
@@ -225,12 +226,12 @@ func (self *MultiIndex) QueryFunc(collection *dal.Collection, filter *filter.Fil
 	return indexErr
 }
 
-func (self *MultiIndex) Query(collection *dal.Collection, filter *filter.Filter, resultFns ...IndexResultFunc) (*dal.RecordSet, error) {
+func (self *MultiIndex) Query(ctx context.Context, collection *dal.Collection, filter *filter.Filter, resultFns ...IndexResultFunc) (*dal.RecordSet, error) {
 	recordset := dal.NewRecordSet()
 	var indexErr error
 
-	if err := self.EachSelectedIndex(collection, RetrieveOperation, func(indexer Indexer, _ int, _ int) error {
-		if rs, err := indexer.Query(collection, filter, resultFns...); err == nil {
+	if err := self.EachSelectedIndex(ctx, collection, RetrieveOperation, func(indexer Indexer, _ int, _ int) error {
+		if rs, err := indexer.Query(ctx, collection, filter, resultFns...); err == nil {
 			if !rs.IsEmpty() {
 				if self.RetrievalStrategy.IsCompoundable() {
 					recordset.Append(rs)
@@ -252,12 +253,12 @@ func (self *MultiIndex) Query(collection *dal.Collection, filter *filter.Filter,
 	return recordset, indexErr
 }
 
-func (self *MultiIndex) ListValues(collection *dal.Collection, fields []string, filter *filter.Filter) (map[string][]interface{}, error) {
+func (self *MultiIndex) ListValues(ctx context.Context, collection *dal.Collection, fields []string, filter *filter.Filter) (map[string][]interface{}, error) {
 	values := make(map[string][]interface{})
 	var indexErr error
 
-	if err := self.EachSelectedIndex(collection, RetrieveOperation, func(indexer Indexer, _ int, _ int) error {
-		if kv, err := indexer.ListValues(collection, fields, filter); err == nil {
+	if err := self.EachSelectedIndex(ctx, collection, RetrieveOperation, func(indexer Indexer, _ int, _ int) error {
+		if kv, err := indexer.ListValues(ctx, collection, fields, filter); err == nil {
 			if len(kv) > 0 {
 				if self.RetrievalStrategy.IsCompoundable() {
 					for k, v := range kv {
@@ -285,11 +286,11 @@ func (self *MultiIndex) ListValues(collection *dal.Collection, fields []string, 
 	return values, indexErr
 }
 
-func (self *MultiIndex) DeleteQuery(collection *dal.Collection, f *filter.Filter) error {
+func (self *MultiIndex) DeleteQuery(ctx context.Context, collection *dal.Collection, f *filter.Filter) error {
 	var indexErr error
 
-	if err := self.EachSelectedIndex(collection, DeleteOperation, func(indexer Indexer, _ int, _ int) error {
-		if err := indexer.DeleteQuery(collection, f); err != nil {
+	if err := self.EachSelectedIndex(ctx, collection, DeleteOperation, func(indexer Indexer, _ int, _ int) error {
+		if err := indexer.DeleteQuery(ctx, collection, f); err != nil {
 			querylog.Debugf("MultiIndex: Failed to remove by query %v from %v, %v: %v", f, collection, indexer, err)
 			indexErr = err
 		}
@@ -326,13 +327,13 @@ func (self *MultiIndex) FlushIndex() error {
 	}
 }
 
-func (self *MultiIndex) EachSelectedIndex(collection *dal.Collection, operation IndexOperation, resultFn IndexerResultFunc) error {
+func (self *MultiIndex) EachSelectedIndex(ctx context.Context, collection *dal.Collection, operation IndexOperation, resultFn IndexerResultFunc) error {
 	lastIndexer := -1
 
 	for {
 		if results, err := self.SelectIndex(collection, operation, lastIndexer); err == nil {
 			for _, result := range results {
-				if result.Indexer.IndexExists(collection, collection.GetIndexName()) {
+				if result.Indexer.IndexExists(ctx, collection, collection.GetIndexName()) {
 					if err := resultFn(result.Indexer, result.Index, lastIndexer); err != nil {
 						if err == IndexerResultsStop {
 							return nil

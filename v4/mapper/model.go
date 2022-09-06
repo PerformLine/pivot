@@ -4,6 +4,7 @@ package mapper
 // interacting with database objects.
 
 import (
+	"context"
 	"fmt"
 	"reflect"
 	"sort"
@@ -68,12 +69,12 @@ func (self *Model) GetCollection() *dal.Collection {
 	return self.collection
 }
 
-func (self *Model) Migrate() error {
+func (self *Model) Migrate(ctx context.Context) error {
 	var actualCollection *dal.Collection
 
 	// create the collection if it doesn't exist
 	if c, err := self.db.GetCollection(self.collection.Name); dal.ShouldCreateCollection(self.collection, err) {
-		if err := self.db.CreateCollection(self.collection); err == nil {
+		if err := self.db.CreateCollection(ctx, self.collection); err == nil {
 			if c, err := self.db.GetCollection(self.collection.Name); err == nil {
 				actualCollection = c
 			} else {
@@ -111,15 +112,15 @@ func (self *Model) Migrate() error {
 	return nil
 }
 
-func (self *Model) Drop() error {
-	return self.db.DeleteCollection(self.collection.Name)
+func (self *Model) Drop(ctx context.Context) error {
+	return self.db.DeleteCollection(ctx, self.collection.Name)
 }
 
 // Creates and saves a new instance of the model from the given struct or dal.Record.
 //
-func (self *Model) Create(from interface{}) error {
+func (self *Model) Create(ctx context.Context, from interface{}) error {
 	if record, err := self.collection.StructToRecord(from); err == nil {
-		return self.db.Insert(self.collection.Name, dal.NewRecordSet(record))
+		return self.db.Insert(ctx, self.collection.Name, dal.NewRecordSet(record))
 	} else {
 		return err
 	}
@@ -128,8 +129,8 @@ func (self *Model) Create(from interface{}) error {
 // Retrieves an instance of the model identified by the given ID and populates the value pointed to
 // by the into parameter.  Structs and dal.Record instances can be populated.
 //
-func (self *Model) Get(id interface{}, into interface{}) error {
-	if record, err := self.db.Retrieve(self.collection.Name, id); err == nil {
+func (self *Model) Get(ctx context.Context, id interface{}, into interface{}) error {
+	if record, err := self.db.Retrieve(ctx, self.collection.Name, id); err == nil {
 		return record.Populate(into, self.collection)
 	} else {
 		return err
@@ -138,15 +139,15 @@ func (self *Model) Get(id interface{}, into interface{}) error {
 
 // Tests whether a record exists for the given ID.
 //
-func (self *Model) Exists(id interface{}) bool {
-	return self.db.Exists(self.collection.Name, id)
+func (self *Model) Exists(ctx context.Context, id interface{}) bool {
+	return self.db.Exists(ctx, self.collection.Name, id)
 }
 
 // Updates and saves an existing instance of the model from the given struct or dal.Record.
 //
-func (self *Model) Update(from interface{}) error {
+func (self *Model) Update(ctx context.Context, from interface{}) error {
 	if record, err := self.collection.StructToRecord(from); err == nil {
-		return self.db.Update(self.collection.Name, dal.NewRecordSet(record))
+		return self.db.Update(ctx, self.collection.Name, dal.NewRecordSet(record))
 	} else {
 		return err
 	}
@@ -154,27 +155,27 @@ func (self *Model) Update(from interface{}) error {
 
 // Creates or updates an instance of the model depending on whether it exists or not.
 //
-func (self *Model) CreateOrUpdate(id interface{}, from interface{}) error {
-	if id == nil || !self.Exists(id) {
-		return self.Create(from)
+func (self *Model) CreateOrUpdate(ctx context.Context, id interface{}, from interface{}) error {
+	if id == nil || !self.Exists(ctx, id) {
+		return self.Create(ctx, from)
 	} else {
-		return self.Update(from)
+		return self.Update(ctx, from)
 	}
 }
 
 // Delete instances of the model identified by the given IDs
 //
-func (self *Model) Delete(ids ...interface{}) error {
-	return self.db.Delete(self.collection.Name, ids...)
+func (self *Model) Delete(ctx context.Context, ids ...interface{}) error {
+	return self.db.Delete(ctx, self.collection.Name, ids...)
 }
 
 // Delete all records matching the given query.
-func (self *Model) DeleteQuery(flt interface{}) error {
+func (self *Model) DeleteQuery(ctx context.Context, flt interface{}) error {
 	if f, err := filter.Parse(flt); err == nil {
 		f.IdentityField = self.collection.IdentityField
 
 		if search := self.db.WithSearch(self.collection, f); search != nil {
-			return search.DeleteQuery(self.collection, f)
+			return search.DeleteQuery(ctx, self.collection, f)
 		} else {
 			return fmt.Errorf("backend %T does not support searching", self.db)
 		}
@@ -188,13 +189,13 @@ func (self *Model) DeleteQuery(flt interface{}) error {
 // if into points to a dal.RecordSet, the RecordSet resulting from the query will be returned
 // as-is.
 //
-func (self *Model) Find(flt interface{}, into interface{}) error {
+func (self *Model) Find(ctx context.Context, flt interface{}, into interface{}) error {
 	if f, err := filter.Parse(flt); err == nil {
 		f.IdentityField = self.collection.IdentityField
 
 		if search := self.db.WithSearch(self.collection, f); search != nil {
 			// perform query
-			if recordset, err := search.Query(self.collection, f); err == nil {
+			if recordset, err := search.Query(ctx, self.collection, f); err == nil {
 				return self.populateOutputParameter(f, recordset, into)
 			} else {
 				return fmt.Errorf("Cannot perform query: %v", err)
@@ -210,12 +211,12 @@ func (self *Model) Find(flt interface{}, into interface{}) error {
 // Perform a query for instances of the model that match the given filter.Filter.
 // The given callback function will be called once per result.
 //
-func (self *Model) FindFunc(flt interface{}, destZeroValue interface{}, resultFn ResultFunc) error {
+func (self *Model) FindFunc(ctx context.Context, flt interface{}, destZeroValue interface{}, resultFn ResultFunc) error {
 	if f, err := filter.Parse(flt); err == nil {
 		f.IdentityField = self.collection.IdentityField
 
 		if search := self.db.WithSearch(self.collection, f); search != nil {
-			_, err := search.Query(self.collection, f, func(record *dal.Record, err error, _ backends.IndexPage) error {
+			_, err := search.Query(ctx, self.collection, f, func(record *dal.Record, err error, _ backends.IndexPage) error {
 				if err == nil {
 					if _, ok := destZeroValue.(*dal.Record); ok {
 						resultFn(record, nil)
@@ -247,24 +248,24 @@ func (self *Model) FindFunc(flt interface{}, destZeroValue interface{}, resultFn
 	}
 }
 
-func (self *Model) All(into interface{}) error {
-	return self.Find(filter.All(), into)
+func (self *Model) All(ctx context.Context, into interface{}) error {
+	return self.Find(ctx, filter.All(), into)
 }
 
-func (self *Model) Each(destZeroValue interface{}, resultFn ResultFunc) error {
-	return self.FindFunc(filter.All(), destZeroValue, resultFn)
+func (self *Model) Each(ctx context.Context, destZeroValue interface{}, resultFn ResultFunc) error {
+	return self.FindFunc(ctx, filter.All(), destZeroValue, resultFn)
 }
 
-func (self *Model) List(fields []string) (map[string][]interface{}, error) {
-	return self.ListWithFilter(fields, filter.All())
+func (self *Model) List(ctx context.Context, fields []string) (map[string][]interface{}, error) {
+	return self.ListWithFilter(ctx, fields, filter.All())
 }
 
-func (self *Model) ListWithFilter(fields []string, flt interface{}) (map[string][]interface{}, error) {
+func (self *Model) ListWithFilter(ctx context.Context, fields []string, flt interface{}) (map[string][]interface{}, error) {
 	if f, err := filter.Parse(flt); err == nil {
 		f.IdentityField = self.collection.IdentityField
 
 		if search := self.db.WithSearch(self.collection, f); search != nil {
-			if fieldValues, err := search.ListValues(self.collection, fields, f); err == nil {
+			if fieldValues, err := search.ListValues(ctx, self.collection, fields, f); err == nil {
 				for field, values := range fieldValues {
 					sort.Slice(values, func(i int, j int) bool {
 						return typeutil.String(values[i]) < typeutil.String(values[j])
@@ -285,12 +286,12 @@ func (self *Model) ListWithFilter(fields []string, flt interface{}) (map[string]
 	}
 }
 
-func (self *Model) Sum(field string, flt interface{}) (float64, error) {
+func (self *Model) Sum(ctx context.Context, field string, flt interface{}) (float64, error) {
 	if f, err := filter.Parse(flt); err == nil {
 		f.IdentityField = self.collection.IdentityField
 
 		if agg := self.db.WithAggregator(self.collection); agg != nil {
-			return agg.Sum(self.collection, field, f)
+			return agg.Sum(ctx, self.collection, field, f)
 		} else {
 			return 0, fmt.Errorf("backend %T does not support aggregation", self.db)
 		}
@@ -299,13 +300,13 @@ func (self *Model) Sum(field string, flt interface{}) (float64, error) {
 	}
 }
 
-func (self *Model) Count(flt interface{}) (uint64, error) {
+func (self *Model) Count(ctx context.Context, flt interface{}) (uint64, error) {
 	if f, err := filter.Parse(flt); err == nil {
 		f.IdentityField = self.collection.IdentityField
 		f.Paginate = false
 
 		if agg := self.db.WithAggregator(self.collection); agg != nil {
-			return agg.Count(self.collection, f)
+			return agg.Count(ctx, self.collection, f)
 		} else {
 			return 0, fmt.Errorf("backend %T does not support aggregation", self.db)
 		}
@@ -314,12 +315,12 @@ func (self *Model) Count(flt interface{}) (uint64, error) {
 	}
 }
 
-func (self *Model) Minimum(field string, flt interface{}) (float64, error) {
+func (self *Model) Minimum(ctx context.Context, field string, flt interface{}) (float64, error) {
 	if f, err := filter.Parse(flt); err == nil {
 		f.IdentityField = self.collection.IdentityField
 
 		if agg := self.db.WithAggregator(self.collection); agg != nil {
-			return agg.Minimum(self.collection, field, f)
+			return agg.Minimum(ctx, self.collection, field, f)
 		} else {
 			return 0, fmt.Errorf("backend %T does not support aggregation", self.db)
 		}
@@ -328,12 +329,12 @@ func (self *Model) Minimum(field string, flt interface{}) (float64, error) {
 	}
 }
 
-func (self *Model) Maximum(field string, flt interface{}) (float64, error) {
+func (self *Model) Maximum(ctx context.Context, field string, flt interface{}) (float64, error) {
 	if f, err := filter.Parse(flt); err == nil {
 		f.IdentityField = self.collection.IdentityField
 
 		if agg := self.db.WithAggregator(self.collection); agg != nil {
-			return agg.Maximum(self.collection, field, f)
+			return agg.Maximum(ctx, self.collection, field, f)
 		} else {
 			return 0, fmt.Errorf("backend %T does not support aggregation", self.db)
 		}
@@ -342,12 +343,12 @@ func (self *Model) Maximum(field string, flt interface{}) (float64, error) {
 	}
 }
 
-func (self *Model) Average(field string, flt interface{}) (float64, error) {
+func (self *Model) Average(ctx context.Context, field string, flt interface{}) (float64, error) {
 	if f, err := filter.Parse(flt); err == nil {
 		f.IdentityField = self.collection.IdentityField
 
 		if agg := self.db.WithAggregator(self.collection); agg != nil {
-			return agg.Average(self.collection, field, f)
+			return agg.Average(ctx, self.collection, field, f)
 		} else {
 			return 0, fmt.Errorf("backend %T does not support aggregation", self.db)
 		}
@@ -356,7 +357,7 @@ func (self *Model) Average(field string, flt interface{}) (float64, error) {
 	}
 }
 
-func (self *Model) GroupBy(fields []string, aggregates []filter.Aggregate, flt interface{}) (*dal.RecordSet, error) {
+func (self *Model) GroupBy(ctx context.Context, fields []string, aggregates []filter.Aggregate, flt interface{}) (*dal.RecordSet, error) {
 	if f, err := filter.Parse(flt); err == nil {
 		f.IdentityField = self.collection.IdentityField
 
@@ -367,7 +368,7 @@ func (self *Model) GroupBy(fields []string, aggregates []filter.Aggregate, flt i
 		}
 
 		if agg := self.db.WithAggregator(self.collection); agg != nil {
-			return agg.GroupBy(self.collection, fields, aggregates, f)
+			return agg.GroupBy(ctx, self.collection, fields, aggregates, f)
 		} else {
 			return nil, fmt.Errorf("backend %T does not support aggregation", self.db)
 		}

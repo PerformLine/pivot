@@ -1,6 +1,7 @@
 package backends
 
 import (
+	"context"
 	"fmt"
 	"math"
 	"strings"
@@ -28,14 +29,14 @@ type IndexResultFunc func(record *dal.Record, err error, page IndexPage) error /
 type Indexer interface {
 	IndexConnectionString() *dal.ConnectionString
 	IndexInitialize(Backend) error
-	IndexExists(collection *dal.Collection, id interface{}) bool
-	IndexRetrieve(collection *dal.Collection, id interface{}) (*dal.Record, error)
-	IndexRemove(collection *dal.Collection, ids []interface{}) error
-	Index(collection *dal.Collection, records *dal.RecordSet) error
-	QueryFunc(collection *dal.Collection, filter *filter.Filter, resultFn IndexResultFunc) error
-	Query(collection *dal.Collection, filter *filter.Filter, resultFns ...IndexResultFunc) (*dal.RecordSet, error)
-	ListValues(collection *dal.Collection, fields []string, filter *filter.Filter) (map[string][]interface{}, error)
-	DeleteQuery(collection *dal.Collection, f *filter.Filter) error
+	IndexExists(ctx context.Context, collection *dal.Collection, id interface{}) bool
+	IndexRetrieve(ctx context.Context, collection *dal.Collection, id interface{}) (*dal.Record, error)
+	IndexRemove(ctx context.Context, collection *dal.Collection, ids []interface{}) error
+	Index(ctx context.Context, collection *dal.Collection, records *dal.RecordSet) error
+	QueryFunc(ctx context.Context, collection *dal.Collection, filter *filter.Filter, resultFn IndexResultFunc) error
+	Query(ctx context.Context, collection *dal.Collection, filter *filter.Filter, resultFns ...IndexResultFunc) (*dal.RecordSet, error)
+	ListValues(ctx context.Context, collection *dal.Collection, fields []string, filter *filter.Filter) (map[string][]interface{}, error)
+	DeleteQuery(ctx context.Context, collection *dal.Collection, f *filter.Filter) error
 	FlushIndex() error
 	GetBackend() Backend
 }
@@ -44,8 +45,6 @@ func MakeIndexer(connection dal.ConnectionString) (Indexer, error) {
 	log.Infof("Creating indexer: %v", connection.String())
 
 	switch connection.Backend() {
-	case `bleve`:
-		return NewBleveIndexer(connection), nil
 	case `elasticsearch`:
 		return NewElasticsearchIndexer(connection), nil
 	default:
@@ -81,10 +80,10 @@ func PopulateRecordSetPageDetails(recordset *dal.RecordSet, f *filter.Filter, pa
 	}
 }
 
-func DefaultQueryImplementation(indexer Indexer, collection *dal.Collection, f *filter.Filter, resultFns ...IndexResultFunc) (*dal.RecordSet, error) {
+func DefaultQueryImplementation(ctx context.Context, indexer Indexer, collection *dal.Collection, f *filter.Filter, resultFns ...IndexResultFunc) (*dal.RecordSet, error) {
 	recordset := dal.NewRecordSet()
 
-	if err := indexer.QueryFunc(collection, f, func(indexRecord *dal.Record, err error, page IndexPage) error {
+	if err := indexer.QueryFunc(ctx, collection, f, func(indexRecord *dal.Record, err error, page IndexPage) error {
 		defer PopulateRecordSetPageDetails(recordset, f, page)
 
 		parent := indexer.GetBackend()
@@ -155,7 +154,7 @@ func DefaultQueryImplementation(indexer Indexer, collection *dal.Collection, f *
 			if f.IdOnly() {
 				return resultFn(emptyRecord, err, page)
 			} else if parent != nil && !forceIndexRecord {
-				if record, err := parent.Retrieve(collection.Name, indexRecord.ID, f.Fields...); err == nil {
+				if record, err := parent.Retrieve(ctx, collection.Name, indexRecord.ID, f.Fields...); err == nil {
 					return resultFn(record, err, page)
 				} else {
 					return resultFn(emptyRecord, err, page)
@@ -168,7 +167,7 @@ func DefaultQueryImplementation(indexer Indexer, collection *dal.Collection, f *
 				recordset.Records = append(recordset.Records, dal.NewRecord(indexRecord.ID))
 
 			} else if parent != nil && !forceIndexRecord {
-				if record, err := parent.Retrieve(collection.Name, indexRecord.ID, f.Fields...); err == nil {
+				if record, err := parent.Retrieve(ctx, collection.Name, indexRecord.ID, f.Fields...); err == nil {
 					recordset.Records = append(recordset.Records, record)
 
 				} else {

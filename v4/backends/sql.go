@@ -152,18 +152,18 @@ func (self *SqlBackend) RegisterCollection(collection *dal.Collection) {
 	if collection != nil {
 		self.registeredCollections.Store(collection.Name, collection)
 		log.Debugf("[%v] register collection %v", self, collection.Name)
-		go self.updateEstimatedCountForTable(collection)
+		go self.updateEstimatedCountForTable(context.Background(), collection)
 	}
 }
 
-func (self *SqlBackend) updateEstimatedCountForTable(collection *dal.Collection) {
+func (self *SqlBackend) updateEstimatedCountForTable(ctx context.Context, collection *dal.Collection) {
 	if !self.conn.OptBool(`autocount`, false) {
 		return
 	}
 
 	if collection != nil {
 		if approx := self.countEstimateQuery; approx != `` {
-			row := self.db.QueryRow(fmt.Sprintf(approx, collection.Name))
+			row := self.db.QueryRowContext(ctx, fmt.Sprintf(approx, collection.Name))
 			var count int
 
 			if err := row.Scan(&count); err == nil {
@@ -180,7 +180,7 @@ func (self *SqlBackend) updateEstimatedCountForTable(collection *dal.Collection)
 			}
 
 			if exact := self.countExactQuery; exact != `` {
-				row := self.db.QueryRow(fmt.Sprintf(exact, collection.Name, sqlMaxExactCountRows))
+				row := self.db.QueryRowContext(ctx, fmt.Sprintf(exact, collection.Name, sqlMaxExactCountRows))
 
 				if err := row.Scan(&count); err == nil {
 					collection.TotalRecords = int64(count)
@@ -247,12 +247,12 @@ func (self *SqlBackend) Initialize() error {
 	}
 
 	// actually verify database connectivity at this time
-	if err := self.Ping(InitialPingTimeout); err != nil {
+	if err := self.Ping(context.Background(), InitialPingTimeout); err != nil {
 		return err
 	}
 
 	// refresh schema cache
-	if err := self.refreshAllCollections(); err != nil {
+	if err := self.refreshAllCollections(context.Background()); err != nil {
 		return err
 	}
 
@@ -265,11 +265,11 @@ func (self *SqlBackend) Initialize() error {
 	return nil
 }
 
-func (self *SqlBackend) Ping(timeout time.Duration) error {
+func (self *SqlBackend) Ping(ctx context.Context, timeout time.Duration) error {
 	if self.db == nil {
 		return fmt.Errorf("Backend not initialized")
 	} else {
-		ctx, cancel := context.WithTimeout(context.Background(), timeout)
+		ctx, cancel := context.WithTimeout(ctx, timeout)
 		defer cancel()
 
 		if err := self.db.PingContext(ctx); err == nil {
@@ -280,13 +280,13 @@ func (self *SqlBackend) Ping(timeout time.Duration) error {
 	}
 }
 
-func (self *SqlBackend) Insert(name string, recordset *dal.RecordSet) error {
+func (self *SqlBackend) Insert(ctx context.Context, name string, recordset *dal.RecordSet) error {
 	if collection, err := self.getCollectionFromCache(name); err == nil {
 		if tx, err := self.db.Begin(); err == nil {
 			switch self.String() {
 			case `mysql`:
 				// disable zero-means-use-autoincrement for inserts in MySQL
-				if _, err := tx.Exec(`SET sql_mode='NO_AUTO_VALUE_ON_ZERO'`); err != nil {
+				if _, err := tx.ExecContext(ctx, `SET sql_mode='NO_AUTO_VALUE_ON_ZERO'`); err != nil {
 					defer tx.Rollback()
 					return err
 				}
@@ -321,7 +321,7 @@ func (self *SqlBackend) Insert(name string, recordset *dal.RecordSet) error {
 					querylog.Debugf("[%v] %s", self, string(stmt[:]))
 
 					// execute the SQL
-					if _, err := tx.Exec(string(stmt[:]), queryGen.GetValues()...); err != nil {
+					if _, err := tx.ExecContext(ctx, string(stmt[:]), queryGen.GetValues()...); err != nil {
 						defer tx.Rollback()
 						return err
 					}
@@ -334,7 +334,7 @@ func (self *SqlBackend) Insert(name string, recordset *dal.RecordSet) error {
 			// commit transaction
 			if err := tx.Commit(); err == nil {
 				if search := self.WithSearch(collection); search != nil {
-					if err := search.Index(collection, recordset); err != nil {
+					if err := search.Index(ctx, collection, recordset); err != nil {
 						querylog.Debugf("[%v] index error %v", self, err)
 					} else {
 						return err
@@ -353,7 +353,7 @@ func (self *SqlBackend) Insert(name string, recordset *dal.RecordSet) error {
 	}
 }
 
-func (self *SqlBackend) Exists(name string, id interface{}) bool {
+func (self *SqlBackend) Exists(ctx context.Context, name string, id interface{}) bool {
 	if collection, err := self.getCollectionFromCache(name); err == nil {
 		if f, err := self.keyQuery(collection, id); err == nil {
 			if tx, err := self.db.Begin(); err == nil {
@@ -367,7 +367,7 @@ func (self *SqlBackend) Exists(name string, id interface{}) bool {
 						querylog.Debugf("[%v] %s", self, string(stmt[:]))
 
 						// perform query
-						if rows, err := tx.Query(string(stmt[:]), queryGen.GetValues()...); err == nil {
+						if rows, err := tx.QueryContext(ctx, string(stmt[:]), queryGen.GetValues()...); err == nil {
 							defer rows.Close()
 							return rows.Next()
 						} else {
@@ -392,7 +392,7 @@ func (self *SqlBackend) Exists(name string, id interface{}) bool {
 	return false
 }
 
-func (self *SqlBackend) Retrieve(name string, id interface{}, fields ...string) (*dal.Record, error) {
+func (self *SqlBackend) Retrieve(ctx context.Context, name string, id interface{}, fields ...string) (*dal.Record, error) {
 	if collection, err := self.getCollectionFromCache(name); err == nil {
 		if f, err := self.keyQuery(collection, id); err == nil {
 			f.Fields = fields
@@ -403,7 +403,7 @@ func (self *SqlBackend) Retrieve(name string, id interface{}, fields ...string) 
 					querylog.Debugf("[%v] %s", self, string(stmt[:]))
 
 					// perform query
-					if rows, err := self.db.Query(string(stmt[:]), queryGen.GetValues()...); err == nil {
+					if rows, err := self.db.QueryContext(ctx, string(stmt[:]), queryGen.GetValues()...); err == nil {
 						defer rows.Close()
 
 						if columns, err := rows.Columns(); err == nil {
@@ -412,7 +412,7 @@ func (self *SqlBackend) Retrieve(name string, id interface{}, fields ...string) 
 							} else {
 								// if it doesn't exist, make sure it's not indexed
 								if search := self.WithSearch(collection); search != nil {
-									defer search.IndexRemove(collection, []interface{}{id})
+									defer search.IndexRemove(ctx, collection, []interface{}{id})
 								}
 
 								return nil, fmt.Errorf("Record %v does not exist", id)
@@ -437,7 +437,7 @@ func (self *SqlBackend) Retrieve(name string, id interface{}, fields ...string) 
 	}
 }
 
-func (self *SqlBackend) Update(name string, recordset *dal.RecordSet, target ...string) error {
+func (self *SqlBackend) Update(ctx context.Context, name string, recordset *dal.RecordSet, target ...string) error {
 	var targetFilter *filter.Filter
 
 	if len(target) > 0 {
@@ -501,7 +501,7 @@ func (self *SqlBackend) Update(name string, recordset *dal.RecordSet, target ...
 					querylog.Debugf("[%v] %s", self, string(stmt[:]))
 
 					// execute SQL
-					if _, err := tx.Exec(string(stmt[:]), queryGen.GetValues()...); err != nil {
+					if _, err := tx.ExecContext(ctx, string(stmt[:]), queryGen.GetValues()...); err != nil {
 						defer tx.Rollback()
 						return err
 					}
@@ -513,7 +513,7 @@ func (self *SqlBackend) Update(name string, recordset *dal.RecordSet, target ...
 
 			if err := tx.Commit(); err == nil {
 				if search := self.WithSearch(collection); search != nil {
-					if err := search.Index(collection, recordset); err != nil {
+					if err := search.Index(ctx, collection, recordset); err != nil {
 						return err
 					}
 				}
@@ -530,11 +530,11 @@ func (self *SqlBackend) Update(name string, recordset *dal.RecordSet, target ...
 	}
 }
 
-func (self *SqlBackend) Delete(name string, ids ...interface{}) error {
+func (self *SqlBackend) Delete(ctx context.Context, name string, ids ...interface{}) error {
 	if collection, err := self.getCollectionFromCache(name); err == nil {
 		// remove documents from index
 		if search := self.WithSearch(collection); search != nil {
-			defer search.IndexRemove(collection, ids)
+			defer search.IndexRemove(ctx, collection, ids)
 		}
 
 		// TODO: need to work out how to handle DELETEs on tables with composite keys
@@ -556,7 +556,7 @@ func (self *SqlBackend) Delete(name string, ids ...interface{}) error {
 				querylog.Debugf("[%v] %s", self, string(stmt[:]))
 
 				// execute SQL
-				if _, err := tx.Exec(string(stmt[:]), queryGen.GetValues()...); err == nil {
+				if _, err := tx.ExecContext(ctx, string(stmt[:]), queryGen.GetValues()...); err == nil {
 					if err := tx.Commit(); err == nil {
 						return nil
 					} else {
@@ -643,7 +643,7 @@ func (self *SqlBackend) schemaColumnClause(field *dal.Field, gen *generators.Sql
 	return def, nil
 }
 
-func (self *SqlBackend) CreateCollection(definition *dal.Collection) error {
+func (self *SqlBackend) CreateCollection(ctx context.Context, definition *dal.Collection) error {
 	// -- sqlite3
 	// CREATE TABLE foo (
 	//     "id"         INTEGER PRIMARY KEY ASC,
@@ -774,7 +774,7 @@ func (self *SqlBackend) CreateCollection(definition *dal.Collection) error {
 	if tx, err := self.db.Begin(); err == nil {
 		querylog.Debugf("[%v] %s", self, string(stmt[:]))
 
-		if _, err := tx.Exec(stmt, values...); err == nil {
+		if _, err := tx.ExecContext(ctx, stmt, values...); err == nil {
 			defer func() {
 				self.RegisterCollection(definition)
 
@@ -793,7 +793,7 @@ func (self *SqlBackend) CreateCollection(definition *dal.Collection) error {
 					if vtx, err := self.db.Begin(); err == nil {
 						querylog.Debugf("[%v] %s [%v]", self, dropView, viewName)
 
-						if _, err := vtx.Exec(dropView, viewName); err == nil {
+						if _, err := vtx.ExecContext(ctx, dropView, viewName); err == nil {
 							if err := vtx.Commit(); err == nil {
 								continue
 							}
@@ -814,7 +814,7 @@ func (self *SqlBackend) CreateCollection(definition *dal.Collection) error {
 	}
 }
 
-func (self *SqlBackend) DeleteCollection(collectionName string) error {
+func (self *SqlBackend) DeleteCollection(ctx context.Context, collectionName string) error {
 	if collection, err := self.getCollectionFromCache(collectionName); err == nil {
 		gen := self.makeQueryGen(collection)
 
@@ -822,7 +822,7 @@ func (self *SqlBackend) DeleteCollection(collectionName string) error {
 			stmt := fmt.Sprintf(self.dropTableQuery, gen.ToTableName(collectionName))
 			querylog.Debugf("[%v] %s", self, string(stmt[:]))
 
-			if _, err := tx.Exec(stmt); err == nil {
+			if _, err := tx.ExecContext(ctx, stmt); err == nil {
 				return tx.Commit()
 			} else {
 				defer tx.Rollback()
@@ -1156,7 +1156,7 @@ func (self *SqlBackend) generateAlterStatement(delta *dal.SchemaDelta) (string, 
 	}
 }
 
-func (self *SqlBackend) Migrate() error {
+func (self *SqlBackend) Migrate(ctx context.Context) error {
 	if !util.Features(`sql-migrate`) {
 		return nil
 	}
@@ -1182,7 +1182,7 @@ func (self *SqlBackend) Migrate() error {
 				if stmt, values, err := self.generateAlterStatement(delta); err == nil {
 					querylog.Debugf("[%v] %s", self, string(stmt[:]))
 
-					if _, err := tx.Exec(stmt, values...); err != nil {
+					if _, err := tx.ExecContext(ctx, stmt, values...); err != nil {
 						defer tx.Rollback()
 						return err
 					}
@@ -1201,12 +1201,12 @@ func (self *SqlBackend) Migrate() error {
 	}
 }
 
-func (self *SqlBackend) refreshAllCollections() error {
+func (self *SqlBackend) refreshAllCollections(ctx context.Context) error {
 	if !self.conn.OptBool(`autoregister`, DefaultAutoregister) {
 		return nil
 	}
 
-	if rows, err := self.db.Query(self.listAllTablesQuery); err == nil {
+	if rows, err := self.db.QueryContext(ctx, self.listAllTablesQuery); err == nil {
 		defer rows.Close()
 		knownTables := make([]string, 0)
 

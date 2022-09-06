@@ -3,6 +3,7 @@ package backends
 // this file satifies the Aggregator interface for SqlBackend
 
 import (
+	"context"
 	"database/sql"
 	"reflect"
 
@@ -14,43 +15,43 @@ import (
 
 type sqlAggResultFunc func(*sql.Rows, *generators.Sql, *dal.Collection, *filter.Filter) (interface{}, error)
 
-func (self *SqlBackend) Sum(collection *dal.Collection, field string, f ...*filter.Filter) (float64, error) {
-	return self.aggregateFloat(collection, filter.Sum, field, f)
+func (self *SqlBackend) Sum(ctx context.Context, collection *dal.Collection, field string, f ...*filter.Filter) (float64, error) {
+	return self.aggregateFloat(ctx, collection, filter.Sum, field, f)
 }
 
-func (self *SqlBackend) Count(collection *dal.Collection, f ...*filter.Filter) (uint64, error) {
+func (self *SqlBackend) Count(ctx context.Context, collection *dal.Collection, f ...*filter.Filter) (uint64, error) {
 	whatToCount := collection.IdentityField
 
 	if typeutil.IsZero(whatToCount) {
 		whatToCount = `1`
 	}
 
-	v, err := self.aggregateFloat(collection, filter.Count, whatToCount, f)
+	v, err := self.aggregateFloat(ctx, collection, filter.Count, whatToCount, f)
 	return uint64(v), err
 }
 
-func (self *SqlBackend) Minimum(collection *dal.Collection, field string, f ...*filter.Filter) (float64, error) {
-	return self.aggregateFloat(collection, filter.Minimum, field, f)
+func (self *SqlBackend) Minimum(ctx context.Context, collection *dal.Collection, field string, f ...*filter.Filter) (float64, error) {
+	return self.aggregateFloat(ctx, collection, filter.Minimum, field, f)
 }
 
-func (self *SqlBackend) Maximum(collection *dal.Collection, field string, f ...*filter.Filter) (float64, error) {
-	return self.aggregateFloat(collection, filter.Maximum, field, f)
+func (self *SqlBackend) Maximum(ctx context.Context, collection *dal.Collection, field string, f ...*filter.Filter) (float64, error) {
+	return self.aggregateFloat(ctx, collection, filter.Maximum, field, f)
 }
 
-func (self *SqlBackend) Average(collection *dal.Collection, field string, f ...*filter.Filter) (float64, error) {
-	return self.aggregateFloat(collection, filter.Average, field, f)
+func (self *SqlBackend) Average(ctx context.Context, collection *dal.Collection, field string, f ...*filter.Filter) (float64, error) {
+	return self.aggregateFloat(ctx, collection, filter.Average, field, f)
 }
 
-func (self *SqlBackend) GroupBy(collection *dal.Collection, groupBy []string, aggregates []filter.Aggregate, f ...*filter.Filter) (*dal.RecordSet, error) {
-	if result, err := self.aggregate(collection, groupBy, aggregates, f, self.extractRecordSet); err == nil {
+func (self *SqlBackend) GroupBy(ctx context.Context, collection *dal.Collection, groupBy []string, aggregates []filter.Aggregate, f ...*filter.Filter) (*dal.RecordSet, error) {
+	if result, err := self.aggregate(ctx, collection, groupBy, aggregates, f, self.extractRecordSet); err == nil {
 		return result.(*dal.RecordSet), nil
 	} else {
 		return nil, err
 	}
 }
 
-func (self *SqlBackend) aggregateFloat(collection *dal.Collection, aggregation filter.Aggregation, field string, f []*filter.Filter) (float64, error) {
-	if result, err := self.aggregate(collection, nil, []filter.Aggregate{
+func (self *SqlBackend) aggregateFloat(ctx context.Context, collection *dal.Collection, aggregation filter.Aggregation, field string, f []*filter.Filter) (float64, error) {
+	if result, err := self.aggregate(ctx, collection, nil, []filter.Aggregate{
 		{
 			Aggregation: aggregation,
 			Field:       field,
@@ -62,7 +63,7 @@ func (self *SqlBackend) aggregateFloat(collection *dal.Collection, aggregation f
 	}
 }
 
-func (self *SqlBackend) aggregate(collection *dal.Collection, groupBy []string, aggregates []filter.Aggregate, f []*filter.Filter, resultFn sqlAggResultFunc) (interface{}, error) {
+func (self *SqlBackend) aggregate(ctx context.Context, collection *dal.Collection, groupBy []string, aggregates []filter.Aggregate, f []*filter.Filter, resultFn sqlAggResultFunc) (interface{}, error) {
 	queryGen := self.makeQueryGen(collection)
 	var flt *filter.Filter
 
@@ -85,7 +86,7 @@ func (self *SqlBackend) aggregate(collection *dal.Collection, groupBy []string, 
 			querylog.Debugf("[%T] %s %v", self, string(stmt[:]), queryGen.GetValues())
 
 			// perform query
-			if rows, err := self.db.Query(string(stmt[:]), queryGen.GetValues()...); err == nil {
+			if rows, err := self.db.QueryContext(ctx, string(stmt[:]), queryGen.GetValues()...); err == nil {
 				defer rows.Close()
 				return resultFn(rows, queryGen, collection, flt)
 			} else {

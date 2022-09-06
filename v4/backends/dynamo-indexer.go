@@ -1,14 +1,15 @@
 package backends
 
 import (
+	"context"
 	"fmt"
 	"math"
 	"strings"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/PerformLine/pivot/v4/dal"
 	"github.com/PerformLine/pivot/v4/filter"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/service/dynamodb"
 )
 
 func (self *DynamoBackend) IndexConnectionString() *dal.ConnectionString {
@@ -23,28 +24,27 @@ func (self *DynamoBackend) GetBackend() Backend {
 	return self
 }
 
-func (self *DynamoBackend) IndexExists(collection *dal.Collection, id interface{}) bool {
-	return self.Exists(collection.Name, id)
+func (self *DynamoBackend) IndexExists(ctx context.Context, collection *dal.Collection, id interface{}) bool {
+	return self.Exists(ctx, collection.Name, id)
 }
 
-func (self *DynamoBackend) IndexRetrieve(collection *dal.Collection, id interface{}) (*dal.Record, error) {
-	return self.Retrieve(collection.Name, id)
+func (self *DynamoBackend) IndexRetrieve(ctx context.Context, collection *dal.Collection, id interface{}) (*dal.Record, error) {
+	return self.Retrieve(ctx, collection.Name, id)
 }
 
-func (self *DynamoBackend) IndexRemove(collection *dal.Collection, ids []interface{}) error {
+func (self *DynamoBackend) IndexRemove(ctx context.Context, collection *dal.Collection, ids []interface{}) error {
 	return nil
 }
 
-func (self *DynamoBackend) Index(collection *dal.Collection, records *dal.RecordSet) error {
+func (self *DynamoBackend) Index(ctx context.Context, collection *dal.Collection, records *dal.RecordSet) error {
 	return nil
 }
 
-func (self *DynamoBackend) QueryFunc(collection *dal.Collection, flt *filter.Filter, resultFn IndexResultFunc) error {
+func (self *DynamoBackend) QueryFunc(ctx context.Context, collection *dal.Collection, flt *filter.Filter, resultFn IndexResultFunc) error {
 	if err := self.validateFilter(collection, flt); err != nil {
 		return fmt.Errorf("Cannot validate filter: %v", err)
 	}
 
-	ctx := aws.BackgroundContext()
 	pageNumber := 0
 	var processed int
 
@@ -151,19 +151,19 @@ func dynamoExprFromFilter(collection *dal.Collection, flt *filter.Filter) ([]str
 	return keyCondExpr, condExpr, attrNames, attrValues, attrFieldMap, nil
 }
 
-func (self *DynamoBackend) Query(collection *dal.Collection, f *filter.Filter, resultFns ...IndexResultFunc) (*dal.RecordSet, error) {
+func (self *DynamoBackend) Query(ctx context.Context, collection *dal.Collection, f *filter.Filter, resultFns ...IndexResultFunc) (*dal.RecordSet, error) {
 	if f != nil {
 		f.Options[`ForceIndexRecord`] = true
 	}
 
-	return DefaultQueryImplementation(self, collection, f, resultFns...)
+	return DefaultQueryImplementation(ctx, self, collection, f, resultFns...)
 }
 
-func (self *DynamoBackend) ListValues(collection *dal.Collection, fields []string, flt *filter.Filter) (map[string][]interface{}, error) {
+func (self *DynamoBackend) ListValues(ctx context.Context, collection *dal.Collection, fields []string, flt *filter.Filter) (map[string][]interface{}, error) {
 	return nil, fmt.Errorf("%T.ListValues: Not Implemented", self)
 }
 
-func (self *DynamoBackend) DeleteQuery(collection *dal.Collection, flt *filter.Filter) error {
+func (self *DynamoBackend) DeleteQuery(ctx context.Context, collection *dal.Collection, flt *filter.Filter) error {
 	return fmt.Errorf("%T.DeleteQuery: Not Implemented", self)
 }
 

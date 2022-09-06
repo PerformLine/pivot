@@ -1,6 +1,7 @@
 package pivot
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -165,7 +166,7 @@ func ApplySchemata(fileOrDirPath string, db Backend) error {
 			if _, err := db.GetCollection(schema.Name); err == nil {
 				continue
 			} else if dal.IsCollectionNotFoundErr(err) {
-				if err := db.CreateCollection(schema); err == nil {
+				if err := db.CreateCollection(context.Background(), schema); err == nil {
 					log.Noticef("[%v] Created collection %q", db, schema.Name)
 				} else {
 					log.Errorf("Cannot create collection %q: %v", schema.Name, err)
@@ -232,7 +233,7 @@ func LoadFixturesFromFile(filename string, db Backend) error {
 						// work out what we're supposed to do right now
 						switch strings.ToLower(record.Operation) {
 						case ``:
-							if db.Exists(collection.Name, record) {
+							if db.Exists(context.Background(), collection.Name, record) {
 								op = 1
 							} else {
 								op = 0
@@ -250,11 +251,11 @@ func LoadFixturesFromFile(filename string, db Backend) error {
 						// do the do
 						switch op {
 						case 0:
-							err = db.Insert(collection.Name, dal.NewRecordSet(record))
+							err = db.Insert(context.Background(), collection.Name, dal.NewRecordSet(record))
 						case 1:
-							err = db.Update(collection.Name, dal.NewRecordSet(record))
+							err = db.Update(context.Background(), collection.Name, dal.NewRecordSet(record))
 						case 2:
-							err = db.Delete(collection.Name, record.Keys(collection))
+							err = db.Delete(context.Background(), collection.Name, record.Keys(collection))
 						}
 
 						if err != nil {

@@ -1,18 +1,13 @@
 package backends
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"strings"
 	"sync"
 	"time"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/awserr"
-	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/dynamodb"
-	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 	"github.com/PerformLine/go-stockutil/fileutil"
 	"github.com/PerformLine/go-stockutil/log"
 	"github.com/PerformLine/go-stockutil/maputil"
@@ -21,6 +16,12 @@ import (
 	"github.com/PerformLine/go-stockutil/typeutil"
 	"github.com/PerformLine/pivot/v4/dal"
 	"github.com/PerformLine/pivot/v4/filter"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/awserr"
+	"github.com/aws/aws-sdk-go/aws/credentials"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/dynamodb"
+	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 )
 
 var DefaultAmazonRegion = `us-east-1`
@@ -73,7 +74,7 @@ func (self *DynamoBackend) GetConnectionString() *dal.ConnectionString {
 	return &self.cs
 }
 
-func (self *DynamoBackend) Ping(timeout time.Duration) error {
+func (self *DynamoBackend) Ping(ctx context.Context, timeout time.Duration) error {
 	if self.db == nil {
 		return fmt.Errorf("Backend not initialized")
 	}
@@ -163,13 +164,14 @@ func (self *DynamoBackend) RegisterCollection(definition *dal.Collection) {
 	self.tableCache.Store(definition.Name, definition)
 }
 
-func (self *DynamoBackend) Exists(name string, id interface{}) bool {
+func (self *DynamoBackend) Exists(ctx context.Context, name string, id interface{}) bool {
 	if _, keys, err := self.getKeyAttributes(name, id); err == nil {
-		if out, err := self.db.GetItem(&dynamodb.GetItemInput{
-			TableName:      aws.String(name),
-			ConsistentRead: aws.Bool(self.cs.OptBool(`readsConsistent`, true)),
-			Key:            keys,
-		}); err == nil {
+		if out, err := self.db.GetItemWithContext(aws.Context(ctx),
+			&dynamodb.GetItemInput{
+				TableName:      aws.String(name),
+				ConsistentRead: aws.Bool(self.cs.OptBool(`readsConsistent`, true)),
+				Key:            keys,
+			}); err == nil {
 			if len(out.Item) > 0 {
 				return true
 			}
@@ -179,16 +181,17 @@ func (self *DynamoBackend) Exists(name string, id interface{}) bool {
 	return false
 }
 
-func (self *DynamoBackend) Retrieve(name string, id interface{}, fields ...string) (*dal.Record, error) {
+func (self *DynamoBackend) Retrieve(ctx context.Context, name string, id interface{}, fields ...string) (*dal.Record, error) {
 	if collection, err := self.GetCollection(name); err == nil {
 		// get the key attributes that target this specific record
 		if _, keys, err := self.getKeyAttributes(name, id); err == nil {
 			// execute the GetItem request
-			if out, err := self.db.GetItem(&dynamodb.GetItemInput{
-				TableName:      aws.String(name),
-				ConsistentRead: aws.Bool(self.cs.OptBool(`readsConsistent`, true)),
-				Key:            keys,
-			}); err == nil {
+			if out, err := self.db.GetItemWithContext(aws.Context(ctx),
+				&dynamodb.GetItemInput{
+					TableName:      aws.String(name),
+					ConsistentRead: aws.Bool(self.cs.OptBool(`readsConsistent`, true)),
+					Key:            keys,
+				}); err == nil {
 				// return the record
 				return dynamoRecordFromItem(collection, id, out.Item)
 			} else if aerr, ok := err.(awserr.Error); ok {
@@ -211,30 +214,30 @@ func (self *DynamoBackend) Retrieve(name string, id interface{}, fields ...strin
 	}
 }
 
-func (self *DynamoBackend) Insert(name string, records *dal.RecordSet) error {
+func (self *DynamoBackend) Insert(ctx context.Context, name string, records *dal.RecordSet) error {
 	if collection, err := self.GetCollection(name); err == nil {
-		return self.upsertRecords(collection, records, true)
+		return self.upsertRecords(ctx, collection, records, true)
 	} else {
 		return err
 	}
 }
 
-func (self *DynamoBackend) Update(name string, records *dal.RecordSet, target ...string) error {
+func (self *DynamoBackend) Update(ctx context.Context, name string, records *dal.RecordSet, target ...string) error {
 	if collection, err := self.GetCollection(name); err == nil {
-		return self.upsertRecords(collection, records, false)
+		return self.upsertRecords(ctx, collection, records, false)
 	} else {
 		return err
 	}
 }
 
-func (self *DynamoBackend) Delete(name string, ids ...interface{}) error {
+func (self *DynamoBackend) Delete(ctx context.Context, name string, ids ...interface{}) error {
 	if _, err := self.GetCollection(name); err == nil {
 		// for each id we're deleting...
 		for _, id := range ids {
 			// get the key attributes that target this specific record
 			if _, keys, err := self.getKeyAttributes(name, id); err == nil {
 				// execute the DeleteItem request
-				if _, err := self.db.DeleteItem(&dynamodb.DeleteItemInput{
+				if _, err := self.db.DeleteItemWithContext(aws.Context(ctx), &dynamodb.DeleteItemInput{
 					TableName: aws.String(name),
 					Key:       keys,
 				}); err != nil {
@@ -261,7 +264,7 @@ func (self *DynamoBackend) Delete(name string, ids ...interface{}) error {
 	}
 }
 
-func (self *DynamoBackend) CreateCollection(definition *dal.Collection) error {
+func (self *DynamoBackend) CreateCollection(ctx context.Context, definition *dal.Collection) error {
 	if definition.View {
 		return fmt.Errorf("View-type collections are not supported on this backend.")
 	}
@@ -270,9 +273,9 @@ func (self *DynamoBackend) CreateCollection(definition *dal.Collection) error {
 
 }
 
-func (self *DynamoBackend) DeleteCollection(name string) error {
+func (self *DynamoBackend) DeleteCollection(ctx context.Context, name string) error {
 	if _, err := self.GetCollection(name); err == nil {
-		if _, err := self.db.DeleteTable(&dynamodb.DeleteTableInput{
+		if _, err := self.db.DeleteTableWithContext(aws.Context(ctx), &dynamodb.DeleteTableInput{
 			TableName: aws.String(name),
 		}); err == nil {
 			self.tableCache.Delete(name)
@@ -559,7 +562,7 @@ func (self *DynamoBackend) getKeyAttributes(name string, id interface{}) (*filte
 	}
 }
 
-func (self *DynamoBackend) upsertRecords(collection *dal.Collection, records *dal.RecordSet, isCreate bool) error {
+func (self *DynamoBackend) upsertRecords(ctx context.Context, collection *dal.Collection, records *dal.RecordSet, isCreate bool) error {
 	for _, record := range records.Records {
 		if item, err := dynamoRecordToItem(collection, record); err == nil {
 			op := &dynamodb.PutItemInput{
@@ -586,7 +589,7 @@ func (self *DynamoBackend) upsertRecords(collection *dal.Collection, records *da
 			}
 
 			// perform the call
-			if _, err := self.db.PutItem(op); err != nil {
+			if _, err := self.db.PutItemWithContext(aws.Context(ctx), op); err != nil {
 				if aerr, ok := err.(awserr.Error); ok {
 					switch aerr.Code() {
 					case dynamodb.ErrCodeConditionalCheckFailedException:
@@ -607,7 +610,7 @@ func (self *DynamoBackend) upsertRecords(collection *dal.Collection, records *da
 
 	if !collection.SkipIndexPersistence {
 		if search := self.WithSearch(collection); search != nil {
-			if err := search.Index(collection, records); err != nil {
+			if err := search.Index(ctx, collection, records); err != nil {
 				return err
 			}
 		}

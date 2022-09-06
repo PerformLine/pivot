@@ -1,6 +1,7 @@
 package backends
 
 import (
+	"context"
 	"sync"
 	"time"
 
@@ -24,7 +25,7 @@ func (self *CachingBackend) ResetCache() {
 	self.cache = sync.Map{}
 }
 
-func (self *CachingBackend) Retrieve(collection string, id interface{}, fields ...string) (*dal.Record, error) {
+func (self *CachingBackend) Retrieve(ctx context.Context, collection string, id interface{}, fields ...string) (*dal.Record, error) {
 	cacheset := make(map[interface{}]interface{})
 
 	if c, ok := self.cache.LoadOrStore(collection, cacheset); ok {
@@ -37,7 +38,7 @@ func (self *CachingBackend) Retrieve(collection string, id interface{}, fields .
 		}
 	}
 
-	if record, err := self.backend.Retrieve(collection, id, fields...); err == nil {
+	if record, err := self.backend.Retrieve(ctx, collection, id, fields...); err == nil {
 		cacheset[id] = record
 		return record, nil
 	} else {
@@ -47,8 +48,8 @@ func (self *CachingBackend) Retrieve(collection string, id interface{}, fields .
 
 // passthrough the remaining functions to fulfill the Backend interface
 // -------------------------------------------------------------------------------------------------
-func (self *CachingBackend) Exists(collection string, id interface{}) bool {
-	return self.backend.Exists(collection, id)
+func (self *CachingBackend) Exists(ctx context.Context, collection string, id interface{}) bool {
+	return self.backend.Exists(ctx, collection, id)
 }
 
 func (self *CachingBackend) Initialize() error {
@@ -67,24 +68,24 @@ func (self *CachingBackend) GetConnectionString() *dal.ConnectionString {
 	return self.backend.GetConnectionString()
 }
 
-func (self *CachingBackend) Insert(collection string, records *dal.RecordSet) error {
-	return self.backend.Insert(collection, records)
+func (self *CachingBackend) Insert(ctx context.Context, collection string, records *dal.RecordSet) error {
+	return self.backend.Insert(ctx, collection, records)
 }
 
-func (self *CachingBackend) Update(collection string, records *dal.RecordSet, target ...string) error {
-	return self.backend.Update(collection, records, target...)
+func (self *CachingBackend) Update(ctx context.Context, collection string, records *dal.RecordSet, target ...string) error {
+	return self.backend.Update(ctx, collection, records, target...)
 }
 
-func (self *CachingBackend) Delete(collection string, ids ...interface{}) error {
-	return self.backend.Delete(collection, ids...)
+func (self *CachingBackend) Delete(ctx context.Context, collection string, ids ...interface{}) error {
+	return self.backend.Delete(ctx, collection, ids...)
 }
 
-func (self *CachingBackend) CreateCollection(definition *dal.Collection) error {
-	return self.backend.CreateCollection(definition)
+func (self *CachingBackend) CreateCollection(ctx context.Context, definition *dal.Collection) error {
+	return self.backend.CreateCollection(ctx, definition)
 }
 
-func (self *CachingBackend) DeleteCollection(collection string) error {
-	return self.backend.DeleteCollection(collection)
+func (self *CachingBackend) DeleteCollection(ctx context.Context, collection string) error {
+	return self.backend.DeleteCollection(ctx, collection)
 }
 
 func (self *CachingBackend) ListCollections() ([]string, error) {
@@ -107,8 +108,8 @@ func (self *CachingBackend) Flush() error {
 	return self.backend.Flush()
 }
 
-func (self *CachingBackend) Ping(d time.Duration) error {
-	return self.backend.Ping(d)
+func (self *CachingBackend) Ping(ctx context.Context, d time.Duration) error {
+	return self.backend.Ping(ctx, d)
 }
 
 func (self *CachingBackend) String() string {

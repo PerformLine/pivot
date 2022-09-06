@@ -3,8 +3,10 @@ package backends
 // this file satifies the Aggregator interface for ElasticsearchIndexer
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
 
 	"github.com/PerformLine/pivot/v4/dal"
 	"github.com/PerformLine/pivot/v4/filter"
@@ -19,11 +21,11 @@ type esAggregationQuery struct {
 
 type esAggregation map[string]interface{}
 
-func (self *ElasticsearchIndexer) Sum(collection *dal.Collection, field string, f ...*filter.Filter) (float64, error) {
-	return self.aggregateFloat(collection, filter.Sum, field, f)
+func (self *ElasticsearchIndexer) Sum(ctx context.Context, collection *dal.Collection, field string, f ...*filter.Filter) (float64, error) {
+	return self.aggregateFloat(ctx, collection, filter.Sum, field, f)
 }
 
-func (self *ElasticsearchIndexer) Count(collection *dal.Collection, flt ...*filter.Filter) (uint64, error) {
+func (self *ElasticsearchIndexer) Count(ctx context.Context, collection *dal.Collection, flt ...*filter.Filter) (uint64, error) {
 	var f *filter.Filter
 
 	if len(flt) > 0 {
@@ -35,7 +37,7 @@ func (self *ElasticsearchIndexer) Count(collection *dal.Collection, flt ...*filt
 	var count uint64
 	var wasSet bool
 
-	if _, err := self.Query(collection, f, func(_ *dal.Record, err error, page IndexPage) error {
+	if _, err := self.Query(ctx, collection, f, func(_ *dal.Record, err error, page IndexPage) error {
 		if err == nil {
 			if !wasSet {
 				count = uint64(page.TotalResults)
@@ -53,28 +55,28 @@ func (self *ElasticsearchIndexer) Count(collection *dal.Collection, flt ...*filt
 	}
 }
 
-func (self *ElasticsearchIndexer) Minimum(collection *dal.Collection, field string, f ...*filter.Filter) (float64, error) {
-	return self.aggregateFloat(collection, filter.Minimum, field, f)
+func (self *ElasticsearchIndexer) Minimum(ctx context.Context, collection *dal.Collection, field string, f ...*filter.Filter) (float64, error) {
+	return self.aggregateFloat(ctx, collection, filter.Minimum, field, f)
 }
 
-func (self *ElasticsearchIndexer) Maximum(collection *dal.Collection, field string, f ...*filter.Filter) (float64, error) {
-	return self.aggregateFloat(collection, filter.Maximum, field, f)
+func (self *ElasticsearchIndexer) Maximum(ctx context.Context, collection *dal.Collection, field string, f ...*filter.Filter) (float64, error) {
+	return self.aggregateFloat(ctx, collection, filter.Maximum, field, f)
 }
 
-func (self *ElasticsearchIndexer) Average(collection *dal.Collection, field string, f ...*filter.Filter) (float64, error) {
-	return self.aggregateFloat(collection, filter.Average, field, f)
+func (self *ElasticsearchIndexer) Average(ctx context.Context, collection *dal.Collection, field string, f ...*filter.Filter) (float64, error) {
+	return self.aggregateFloat(ctx, collection, filter.Average, field, f)
 }
 
-func (self *ElasticsearchIndexer) GroupBy(collection *dal.Collection, groupBy []string, aggregates []filter.Aggregate, flt ...*filter.Filter) (*dal.RecordSet, error) {
-	if result, err := self.aggregate(collection, groupBy, aggregates, flt, false); err == nil {
+func (self *ElasticsearchIndexer) GroupBy(ctx context.Context, collection *dal.Collection, groupBy []string, aggregates []filter.Aggregate, flt ...*filter.Filter) (*dal.RecordSet, error) {
+	if result, err := self.aggregate(ctx, collection, groupBy, aggregates, flt, false); err == nil {
 		return result.(*dal.RecordSet), nil
 	} else {
 		return nil, err
 	}
 }
 
-func (self *ElasticsearchIndexer) aggregateFloat(collection *dal.Collection, aggregation filter.Aggregation, field string, flt []*filter.Filter) (float64, error) {
-	if result, err := self.aggregate(collection, nil, []filter.Aggregate{
+func (self *ElasticsearchIndexer) aggregateFloat(ctx context.Context, collection *dal.Collection, aggregation filter.Aggregation, field string, flt []*filter.Filter) (float64, error) {
+	if result, err := self.aggregate(ctx, collection, nil, []filter.Aggregate{
 		{
 			Aggregation: aggregation,
 			Field:       field,
@@ -86,7 +88,7 @@ func (self *ElasticsearchIndexer) aggregateFloat(collection *dal.Collection, agg
 	}
 }
 
-func (self *ElasticsearchIndexer) aggregate(collection *dal.Collection, groupBy []string, aggregates []filter.Aggregate, flt []*filter.Filter, single bool) (interface{}, error) {
+func (self *ElasticsearchIndexer) aggregate(ctx context.Context, collection *dal.Collection, groupBy []string, aggregates []filter.Aggregate, flt []*filter.Filter, single bool) (interface{}, error) {
 	var f *filter.Filter
 
 	if len(flt) > 0 {
@@ -128,7 +130,7 @@ func (self *ElasticsearchIndexer) aggregate(collection *dal.Collection, groupBy 
 			}
 
 			if query, err := json.Marshal(aggs); err == nil {
-				if req, err := self.newRequest(`GET`, fmt.Sprintf("/%s/_search", collection.GetAggregatorName()), string(query)); err == nil {
+				if req, err := self.newRequest(ctx, http.MethodGet, fmt.Sprintf("/%s/_search", collection.GetAggregatorName()), string(query)); err == nil {
 					// perform request, read response
 					if response, err := self.client.Do(req); err == nil {
 						if response.StatusCode < 400 {
