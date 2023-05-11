@@ -28,7 +28,7 @@ require (
 )
 
 require (
-	github.com/docker/distribution v2.8.0+incompatible // indirect
+	github.com/docker/distribution v2.8.2+incompatible // indirect
 	github.com/docker/docker v1.13.1 // indirect
 )
 
