@@ -7,12 +7,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/awserr"
-	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/dynamodb"
-	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 	"github.com/PerformLine/go-stockutil/fileutil"
 	"github.com/PerformLine/go-stockutil/log"
 	"github.com/PerformLine/go-stockutil/maputil"
@@ -21,6 +15,12 @@ import (
 	"github.com/PerformLine/go-stockutil/typeutil"
 	"github.com/PerformLine/pivot/v3/dal"
 	"github.com/PerformLine/pivot/v3/filter"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/awserr"
+	"github.com/aws/aws-sdk-go/aws/credentials"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/dynamodb"
+	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 )
 
 var DefaultAmazonRegion = `us-east-1`
