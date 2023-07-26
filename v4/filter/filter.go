@@ -8,7 +8,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/fatih/structs"
 	"github.com/PerformLine/go-stockutil/maputil"
 	"github.com/PerformLine/go-stockutil/sliceutil"
 	"github.com/PerformLine/go-stockutil/stringutil"
@@ -16,6 +15,7 @@ import (
 	"github.com/PerformLine/go-stockutil/typeutil"
 	"github.com/PerformLine/pivot/v4/dal"
 	"github.com/PerformLine/pivot/v4/util"
+	"github.com/fatih/structs"
 )
 
 var CriteriaSeparator = `/`

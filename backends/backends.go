@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/alexcesaro/statsd"
 	"github.com/PerformLine/go-stockutil/log"
 	"github.com/PerformLine/pivot/v3/dal"
 	"github.com/PerformLine/pivot/v3/filter"
+	"github.com/alexcesaro/statsd"
 )
 
 var querylog = log.Logger()

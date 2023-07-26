@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/deckarep/golang-set"
 	"github.com/PerformLine/go-stockutil/log"
 	"github.com/PerformLine/go-stockutil/stringutil"
 	"github.com/PerformLine/pivot/v3/dal"
 	"github.com/PerformLine/pivot/v3/filter"
+	"github.com/deckarep/golang-set"
 )
 
 type MetaIndex struct {

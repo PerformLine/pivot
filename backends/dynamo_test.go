@@ -3,9 +3,9 @@ package backends
 import (
 	"testing"
 
+	"github.com/PerformLine/pivot/v3/dal"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
-	"github.com/PerformLine/pivot/v3/dal"
 	"github.com/stretchr/testify/require"
 )
 

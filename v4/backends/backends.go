@@ -44,6 +44,7 @@ type Backend interface {
 	Ping(context.Context, time.Duration) error
 	String() string
 	Supports(feature ...BackendFeature) bool
+	SetEndpoint(string)
 }
 
 var NotImplementedError = fmt.Errorf("Not Implemented")
