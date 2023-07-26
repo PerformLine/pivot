@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/urfave/cli"
 	"github.com/PerformLine/go-stockutil/fileutil"
 	"github.com/PerformLine/go-stockutil/log"
 	"github.com/PerformLine/go-stockutil/sliceutil"
@@ -20,7 +21,6 @@ import (
 	"github.com/PerformLine/pivot/v3/filter"
 	"github.com/PerformLine/pivot/v3/filter/generators"
 	"github.com/PerformLine/pivot/v3/mapper"
-	"github.com/urfave/cli"
 )
 
 func main() {
