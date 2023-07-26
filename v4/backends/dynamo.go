@@ -37,6 +37,7 @@ type DynamoBackend struct {
 	region     string
 	tableCache sync.Map
 	indexer    Indexer
+	endpoint   string
 }
 
 type dynamoQueryIntent int
@@ -83,6 +84,10 @@ func (self *DynamoBackend) Ping(ctx context.Context, timeout time.Duration) erro
 	return nil
 }
 
+func (self *DynamoBackend) SetEndpoint(endpoint string) {
+	self.endpoint = endpoint
+}
+
 func (self *DynamoBackend) SetIndexer(indexConnString dal.ConnectionString) error {
 	if indexer, err := MakeIndexer(indexConnString); err == nil {
 		self.indexer = indexer
@@ -93,32 +98,7 @@ func (self *DynamoBackend) SetIndexer(indexConnString dal.ConnectionString) erro
 }
 
 func (self *DynamoBackend) Initialize() error {
-	var providers []credentials.Provider
 	var logLevel aws.LogLevelType
-
-	// specify explicitly-provided credentials first
-	if u, p, ok := self.cs.Credentials(); ok {
-		providers = append(providers, &credentials.StaticProvider{
-			Value: credentials.Value{
-				AccessKeyID:     u,
-				SecretAccessKey: p,
-				SessionToken:    self.cs.OptString(`token`, ``),
-			},
-		})
-	}
-
-	// if the shared credentials file exists, use it
-	shared := fileutil.MustExpandUser(DefaultSharedCredentialsFile)
-
-	if fileutil.IsNonemptyFile(shared) {
-		providers = append(providers, &credentials.SharedCredentialsProvider{
-			Filename: shared,
-			Profile:  sliceutil.OrString(os.Getenv(`AWS_PROFILE`), DefaultSharedCredentialsProfile),
-		})
-	}
-
-	// add the environment variables provider last
-	providers = append(providers, &credentials.EnvProvider{})
 
 	if self.cs.OptBool(`debug`, false) {
 		logLevel = aws.LogDebugWithHTTPBody
@@ -130,9 +110,9 @@ func (self *DynamoBackend) Initialize() error {
 	self.db = dynamodb.New(
 		session,
 		&aws.Config{
-			Region:      aws.String(self.region),
-			Credentials: credentials.NewChainCredentials(providers),
-			LogLevel:    &logLevel,
+			Endpoint: aws.String(self.endpoint),
+			Region:   aws.String(self.region),
+			LogLevel: &logLevel,
 		},
 	)
 

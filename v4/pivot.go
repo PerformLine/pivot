@@ -44,6 +44,11 @@ func NewDatabaseWithOptions(connection string, options ConnectOptions) (DB, erro
 		}
 
 		if backend, err := backends.MakeBackend(cs); err == nil {
+			// set endpoint
+			if options.Endpoint != `` {
+				backend.SetEndpoint(options.Endpoint)
+			}
+
 			// set indexer
 			if options.Indexer != `` {
 				if ics, err := dal.ParseConnectionString(options.Indexer); err == nil {
