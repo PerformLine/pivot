@@ -3,10 +3,12 @@ package backends
 import (
 	"context"
 	"fmt"
+	"os"
 	"strings"
 	"sync"
 	"time"
 
+	"github.com/PerformLine/go-stockutil/fileutil"
 	"github.com/PerformLine/go-stockutil/log"
 	"github.com/PerformLine/go-stockutil/maputil"
 	"github.com/PerformLine/go-stockutil/sliceutil"
@@ -16,6 +18,7 @@ import (
 	"github.com/PerformLine/pivot/v4/filter"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
+	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
@@ -95,8 +98,32 @@ func (self *DynamoBackend) SetIndexer(indexConnString dal.ConnectionString) erro
 }
 
 func (self *DynamoBackend) Initialize() error {
+	var providers []credentials.Provider
 	var logLevel aws.LogLevelType
 
+	// specify explicitly-provided credentials first
+	if u, p, ok := self.cs.Credentials(); ok {
+		providers = append(providers, &credentials.StaticProvider{
+			Value: credentials.Value{
+				AccessKeyID:     u,
+				SecretAccessKey: p,
+				SessionToken:    self.cs.OptString(`token`, ``),
+			},
+		})
+	}
+
+	// if the shared credentials file exists, use it
+	shared := fileutil.MustExpandUser(DefaultSharedCredentialsFile)
+
+	if fileutil.IsNonemptyFile(shared) {
+		providers = append(providers, &credentials.SharedCredentialsProvider{
+			Filename: shared,
+			Profile:  sliceutil.OrString(os.Getenv(`AWS_PROFILE`), DefaultSharedCredentialsProfile),
+		})
+	}
+
+	// add the environment variables provider last
+	providers = append(providers, &credentials.EnvProvider{})
 	if self.cs.OptBool(`debug`, false) {
 		logLevel = aws.LogDebugWithHTTPBody
 	}
@@ -104,14 +131,25 @@ func (self *DynamoBackend) Initialize() error {
 	session := session.New()
 	nrawssdk.InstrumentHandlers(&session.Handlers)
 
-	self.db = dynamodb.New(
-		session,
-		&aws.Config{
-			Endpoint: aws.String(self.endpoint),
-			Region:   aws.String(self.region),
-			LogLevel: &logLevel,
-		},
-	)
+	if self.endpoint != "" {
+		self.db = dynamodb.New(
+			session,
+			&aws.Config{
+				Endpoint: aws.String(self.endpoint),
+				Region:   aws.String(self.region),
+				LogLevel: &logLevel,
+			},
+		)
+	} else {
+		self.db = dynamodb.New(
+			session,
+			&aws.Config{
+				Region:      aws.String(self.region),
+				Credentials: credentials.NewChainCredentials(providers),
+				LogLevel:    &logLevel,
+			},
+		)
+	}
 
 	if self.cs.OptBool(`autoregister`, true) {
 		// retrieve each table once as a cache warming mechanism
