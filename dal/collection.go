@@ -241,6 +241,7 @@ func (self *Collection) AddFields(fields ...Field) *Collection {
 //
 // This function converts this instance into a Collection definition by copying the relevant values
 // from given definition.
+//
 func (self *Collection) ApplyDefinition(definition *Collection) error {
 	if definition != nil {
 		if v := definition.IdentityField; v != `` {
