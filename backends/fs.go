@@ -13,7 +13,7 @@ import (
 	"github.com/PerformLine/pivot/v3/dal"
 	"github.com/PerformLine/pivot/v3/filter"
 	"github.com/ghodss/yaml"
-	"github.com/hashicorp/golang-lru"
+	lru "github.com/hashicorp/golang-lru"
 )
 
 var WriteLockFormat = `%s.lock`

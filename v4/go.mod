@@ -1,9 +1,9 @@
 module github.com/PerformLine/pivot/v4
 
-go 1.17
+go 1.20
 
 require (
-	github.com/PerformLine/go-stockutil v1.9.3
+	github.com/PerformLine/go-stockutil v1.9.4
 	github.com/alexcesaro/statsd v2.0.0+incompatible
 	github.com/aws/aws-sdk-go v1.43.4
 	github.com/fatih/structs v1.1.0
@@ -41,11 +41,11 @@ require (
 	github.com/pkg/sftp v1.13.4 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/urfave/negroni v1.0.1-0.20191011213438-f4316798d5d3 // indirect
-	golang.org/x/crypto v0.0.0-20220214200702-86341886e292 // indirect
-	golang.org/x/sys v0.0.0-20220222160653-b146bcec3beb // indirect
+	golang.org/x/crypto v0.12.0 // indirect
+	golang.org/x/sys v0.11.0 // indirect
 	gopkg.in/alexcesaro/statsd.v2 v2.0.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/neurosnap/sentences.v1 v1.0.6 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
