@@ -8,6 +8,11 @@ import (
 	"strings"
 	"time"
 
+	"github.com/PerformLine/go-stockutil/log"
+	"github.com/PerformLine/go-stockutil/sliceutil"
+	"github.com/PerformLine/go-stockutil/stringutil"
+	"github.com/PerformLine/pivot/v3/dal"
+	"github.com/PerformLine/pivot/v3/filter"
 	"github.com/blevesearch/bleve"
 	"github.com/blevesearch/bleve/analysis/analyzer/custom"
 	"github.com/blevesearch/bleve/analysis/char/regexp"
@@ -15,12 +20,7 @@ import (
 	"github.com/blevesearch/bleve/analysis/tokenizer/single"
 	"github.com/blevesearch/bleve/mapping"
 	"github.com/blevesearch/bleve/search/query"
-	"github.com/PerformLine/go-stockutil/log"
-	"github.com/PerformLine/go-stockutil/sliceutil"
-	"github.com/PerformLine/go-stockutil/stringutil"
-	"github.com/PerformLine/pivot/v3/dal"
-	"github.com/PerformLine/pivot/v3/filter"
-	"github.com/orcaman/concurrent-map"
+	cmap "github.com/orcaman/concurrent-map"
 )
 
 var BleveBatchFlushCount = 1
