@@ -531,6 +531,7 @@ func (self *ElasticsearchIndexer) newRequest(ctx context.Context, method string,
 	}
 
 	buf.Write([]byte(strings.Join(lines, "\n")))
+	buf.Write([]byte("\n"))
 
 	querylog.Debugf("[%T] %v %v %v", self, method, urlpath, body)
 
