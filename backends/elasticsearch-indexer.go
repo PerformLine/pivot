@@ -530,6 +530,7 @@ func (self *ElasticsearchIndexer) newRequest(method string, urlpath string, body
 	}
 
 	buf.Write([]byte(strings.Join(lines, "\n")))
+	buf.Write([]byte("\n"))
 
 	querylog.Debugf("[%T] %v %v %v", self, method, urlpath, body)
 
