@@ -53,15 +53,15 @@ func (self *Elasticsearch) Finalize(flt *filter.Filter) error {
 
 	var query map[string]interface{}
 
-	if flt.Spec == `all` {
-		query = map[string]interface{}{
-			`match_all`: map[string]interface{}{},
-		}
-	} else {
+	if self.criteria != nil || flt.Spec != `all` {
 		query = map[string]interface{}{
 			`bool`: map[string]interface{}{
 				conjunction: self.criteria,
 			},
+		}
+	} else {
+		query = map[string]interface{}{
+			`match_all`: map[string]interface{}{},
 		}
 	}
 
