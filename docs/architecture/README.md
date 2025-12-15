@@ -12,6 +12,7 @@ This directory contains comprehensive architecture documentation for the Pivot m
 | [04-data-flows.md](04-data-flows.md) | Query execution, CRUD operations, relationship resolution |
 | [05-patterns.md](05-patterns.md) | Backend/Indexer patterns, Generator pattern, Mapper ORM |
 | [06-gotchas.md](06-gotchas.md) | Known oddities, v3 vs v4 differences, backend quirks |
+| [07-migration-guide.md](07-migration-guide.md) | Migrating from Pivot to standard libraries (GORM, sqlx) |
 
 ## Suggested Reading Order
 
@@ -24,6 +25,11 @@ This directory contains comprehensive architecture documentation for the Pivot m
 **For debugging/troubleshooting:**
 1. Check [06-gotchas.md](06-gotchas.md) for common pitfalls
 2. Review [04-data-flows.md](04-data-flows.md) to trace request paths
+
+**For migration planning:**
+1. Read [07-migration-guide.md](07-migration-guide.md) for library equivalents and patterns
+2. Review [05-patterns.md](05-patterns.md) to understand current usage patterns
+3. Check [03-data-model.md](03-data-model.md) for struct tag and schema translation
 
 ## Related Documentation
 
