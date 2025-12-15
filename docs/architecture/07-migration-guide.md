@@ -10,7 +10,7 @@ This document provides guidance for migrating from Pivot to industry-standard Go
 | MongoDB | [mongo-go-driver](https://github.com/mongodb/mongo-go-driver) | Official MongoDB driver |
 | Redis | [go-redis](https://github.com/redis/go-redis) | Modern Redis client |
 | DynamoDB | [aws-sdk-go-v2](https://github.com/aws/aws-sdk-go-v2) | AWS SDK v2 (not v1) |
-| Elasticsearch | [go-elasticsearch](https://github.com/elastic/go-elasticsearch) | Official Elastic client |
+| Elasticsearch | [opensearch-go v4](https://github.com/opensearch-project/opensearch-go) | OpenSearch client (ES-compatible) |
 | Filesystem | Standard `os`/`io` + `encoding/json` | No library needed |
 
 ## Interface Method Mapping
